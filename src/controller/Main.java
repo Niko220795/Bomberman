@@ -16,13 +16,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import model.User;
 //import Model.ButtonAdder;
 //import Model.User;
 //import Model.UserButton;
 //import Model.UserSetter;
 import view.*;
-import view.Menu;
-
 import java.awt.Color;
 import java.awt.Font;
 
@@ -34,7 +33,7 @@ public class Main{
 	JButton[] user_buttons = new JButton[3];
 	JButton new_game;
 	JButton load;
-//	public User active_user;
+	public User playing_user;
 	public JFrame menu;
 	
 	public Main() {
@@ -70,9 +69,18 @@ public class Main{
 //	}
 
 	public static void main(String[] args) {
-		Main m = new Main();
+//		MainMenu m = new MainMenu();
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setResizable(false);
+		frame.setTitle("test");
+		GamePanel gp = new GamePanel();
+		frame.getContentPane().add(gp);
+		frame.setLocationRelativeTo(null);
+		frame.pack();
+		frame.setVisible(true);
 //		m.loadUser();
-		m.showMenu();
+//		m.setVisible(true);;
 //		Main main_controller = new Main();
 	}
 	
@@ -134,7 +142,6 @@ public class Main{
 		play.setBounds(500, 450, 150, 50);
 		for (int i = 0; i<3; i++) {
 //			JButton user = new UserButton(this, this.users[i]);
-//			Copperplate Gothic Bold
 //			JButton user = new JButton("new button");
 			JButton user = new JButton("SAVE SLOT " + i);
 			user.setForeground(Color.ORANGE);
