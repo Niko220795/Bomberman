@@ -276,7 +276,7 @@ public class Bomberman extends Character{
 		
 	}
 	
-	public Coordinates[] damageHitBot(int tile_size) {
+	public Coordinates[] damageHitBox(int tile_size) {
 		int hitBoxUpperLeft_x = getPos_x()+tile_size/5;
 		int hitBoxUpperLeft_y = getPos_y()+tile_size*1/5;
 		int hitBoxUpperRight_x = getPos_x() + tile_size - tile_size/5;
@@ -298,7 +298,7 @@ public class Bomberman extends Character{
 
 	@Override
 	public boolean checkDamage(TileModel[][] map_structure) {
-		Coordinates[] hitbox = this.collisionHitBox(GamePanel.FINAL_TILE_SIZE);
+		Coordinates[] hitbox = this.damageHitBox(GamePanel.FINAL_TILE_SIZE);
 		for (Coordinates c : hitbox) {
 			int row = c.j/GamePanel.FINAL_TILE_SIZE;
 			int col = c.i/GamePanel.FINAL_TILE_SIZE;

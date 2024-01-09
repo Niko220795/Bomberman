@@ -311,7 +311,7 @@ public class Walker extends Enemy{
 //			
 //		}
 //		return false;
-		Coordinates[] b_hit_box = b.damageHitBot(tile_size);
+		Coordinates[] b_hit_box = b.damageHitBox(tile_size);
 		for (Coordinates c : b_hit_box) {
 			if (c.i > hit_box[0].i && c.i < hit_box[1].i && c.j > hit_box[0].j && c.j < hit_box[2].j) {
 				System.out.println("hit");
