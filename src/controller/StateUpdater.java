@@ -9,6 +9,7 @@ import controller.Coordinates;
 //import model.PowerUpModel;
 import model.BombModel;
 import model.TileModel;
+import model.Character;
 import view.GamePanel;
 
 public class StateUpdater {
@@ -68,5 +69,30 @@ public class StateUpdater {
             }
         }
     }
+	
+	public void manageCharacters() {
+		for (Iterator<Character> iterator = this.game_setup.getCharacterModelsView().keySet().iterator(); iterator.hasNext();) {
+			Character c = iterator.next();
+			if (c.isDead()) {
+				boolean can_disappear = c.decreaseDeathAnimationCounter();			
+				/*
+				 * se il death_animation_counter dura di più della fiamma il personaggio non sparisce, 
+				 * bisogna creare can_disappear come campo della classe e fare questo controllo in un'altra funzione
+				 * a parte, e non bombdamage
+				 */
+				if (can_disappear) {
+					c.setReallyDead();
+					iterator.remove();
+				}
+			}
+			else {
+				c.move(GamePanel.FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());
+
+			}
+		}
+//		for (Character c : this.game_setup.getMoveableCharacter()) {
+//			c.move(GamePanel.FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());
+//		}
+	}
 
 }

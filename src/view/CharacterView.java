@@ -12,6 +12,8 @@ import model.Direction;
 
 @SuppressWarnings("deprecation")
 public abstract class CharacterView extends EntityView{
+	
+	protected int ANIMATION_SPEED = 4;
     protected BufferedImage dead_sprite;
     protected BufferedImage[] leftAnimations;
     protected BufferedImage[] rightAnimations;

@@ -12,6 +12,7 @@ import model.Bomberman;
 import model.Character;
 import model.TileModel;
 import view.BombView;
+import view.CharacterView;
 //import model.PowerUpModel;
 import view.GamePanel;
 
@@ -25,7 +26,47 @@ public class Renderer {
 		this.map_entities = map_entities;
 	}
 	
-	
+public void drawCharacters(Graphics g) {
+	for (Character c : this.game_setup.getCharacterModelsView().keySet()) {
+		CharacterView view = this.game_setup.getCharacterModelsView().get(c);
+		if (c.isDead()) {
+			BufferedImage sprite = view.getDeadSprite(c.getDeath_animation_counter());
+			g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);
+
+		}
+		else {
+			BufferedImage sprite = view.getSprite();
+			if (c instanceof Bomberman) {
+				if (c.invulnerability%2 == 0) {
+					g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);				
+				}
+			}
+			else {
+				g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
+			}
+
+		}
+	}
+}
+
+public void drawTile(Graphics g, TileModel[][] mapStructure) {
+		
+		int h_tiles_num = GamePanel.X_TILES;
+		int v_tiles_num = GamePanel.Y_TILES;
+		int tile_width = GamePanel.FINAL_TILE_SIZE;
+		for (int j = 0; j < h_tiles_num; j++) {
+			for (int k = 0; k < v_tiles_num; k++) {
+				TileModel tile = mapStructure[k][j];
+				int tile_num = tile.getModel_num();
+				if (tile.is_disappearing) {
+					g.drawImage(game_setup.getTile_view().getExploding_block()[5-(tile.destruction_counter/10)%6], j*tile_width, k*tile_width, tile_width, tile_width, null);
+				}
+				else {
+					g.drawImage(game_setup.getTile_view().getTileSamples()[tile_num-1], j*tile_width, k*tile_width, tile_width, tile_width, null);					
+				}
+			}
+		}
+	}
 	public void drawBombExplosion(Graphics g, BombModel b) {
 		TileModel[][] map_structure = this.game_setup.getMap_structure();
 		ArrayList<TileModel> tiles_to_update = this.state_updater.getTiles_to_update();
@@ -186,40 +227,6 @@ public class Renderer {
 				this.drawBombExplosion(g, b);
 			}
 
-//				for (Character c : this.moveableCharacters) {
-//					var flames = placedBombs.get(b);
-//					int c_tile_col = c.getPos_x()/FINAL_TILE_SIZE;
-//					int c_tile_row = c.getPos_y()/FINAL_TILE_SIZE;
-//					int HitBoxUpperLeft_x = (c.getPos_x()+10) / FINAL_TILE_SIZE;
-//					int HitBoxUpperLeft_y = (c.getPos_y()+10) / FINAL_TILE_SIZE;
-//					int HitBoxUpperRight_x = (c.getPos_x() + GamePanel.FINAL_TILE_SIZE-10)/ FINAL_TILE_SIZE;
-//					int HitBoxUpperRight_y = (c.getPos_y()+10)/ FINAL_TILE_SIZE;
-//					int HitBoxBottomLeft_x = (c.getPos_x()+10)/ FINAL_TILE_SIZE;
-//					int HitBoxBottomLeft_y = (c.getPos_y() + GamePanel.FINAL_TILE_SIZE-10)/ FINAL_TILE_SIZE;
-//					int HitBoxBottomRight_x = (c.getPos_x() + GamePanel.FINAL_TILE_SIZE-10)/ FINAL_TILE_SIZE;
-//					int HitBoxBottomRight_y = (c.getPos_y() + GamePanel.FINAL_TILE_SIZE-10)/ FINAL_TILE_SIZE;
-//					int row_pos = c.getPos_y()/FINAL_TILE_SIZE;
-//					int col_pos = c.getPos_x()/FINAL_TILE_SIZE;
-//					if (	flames.contains(this.map_structure[HitBoxUpperLeft_y][HitBoxUpperLeft_x]) || 
-//							flames.contains(this.map_structure[HitBoxUpperRight_y][HitBoxUpperRight_x]) ||
-//							flames.contains(this.map_structure[HitBoxBottomLeft_y][HitBoxBottomLeft_x]) ||
-//							flames.contains(this.map_structure[HitBoxBottomRight_y][HitBoxBottomRight_x])){
-//						if (!b.hasDamaged(c)) {
-//							c.damage();
-//							b.damaged(c);
-//							
-//						}
-//						
-////					TileModel characterTile = this.map_structure[c_tile_row][c_tile_col];
-////					if(placedBombs.get(b).contains(characterTile) && !b.processed_explosion) {
-////						c.damage();
-////						System.out.println("damaged");
-////					}
-//					}
-//				}
-//				b.processed_explosion = true;
-//				
-//			}
 			else {
 				BufferedImage bombSprite = game_setup.getBomb_view().bombAnimations[(b.animationCounter/2)%3];
 				g.drawImage(bombSprite, b.getPos_x(), b.getPos_y(), GamePanel.FINAL_TILE_SIZE, GamePanel.FINAL_TILE_SIZE, null);

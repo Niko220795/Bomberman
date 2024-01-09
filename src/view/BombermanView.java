@@ -11,7 +11,7 @@ import model.Direction;
 
 public class BombermanView extends CharacterView {
 
-	protected int ANIMATION_SPEED = 4;
+	
 	
 	
 	

@@ -49,10 +49,11 @@ public class GamePanel extends JPanel implements Runnable{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		this.game_setup.getMap().drawTile(g, this.game_setup.getMap_structure());
-		g.drawImage(this.game_setup.getBomberman_view().getSprite(),
-				Bomberman.getInstance().getPos_x(), Bomberman.getInstance().getPos_y(),
-				this.game_setup.getBomberman_view().getSpriteWidth()*2, this.game_setup.getBomberman_view().getSpriteHeight()*2,	 null);
+		this.renderer.drawTile(g, this.game_setup.getMap_structure());
+		this.renderer.drawCharacters(g);
+//		g.drawImage(this.game_setup.getBomberman_view().getSprite(),
+//				Bomberman.getInstance().getPos_x(), Bomberman.getInstance().getPos_y(),
+//				this.game_setup.getBomberman_view().getSpriteWidth()*2, this.game_setup.getBomberman_view().getSpriteHeight()*2,	 null);
 		this.renderer.drawBombs(g);
 	}
 	
@@ -61,7 +62,8 @@ public class GamePanel extends JPanel implements Runnable{
 	@Override
 	public void run() {
 		while(true) {
-			Bomberman.getInstance().move(FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());
+//			Bomberman.getInstance().move(FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());
+			this.state_updater.manageCharacters();
 			Bomberman.getInstance().placeBomb(game_setup);
 			this.state_updater.updateBombTimer();
 			this.state_updater.explodeBlocks();

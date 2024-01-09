@@ -1,6 +1,6 @@
 package model;
 
-import view.BombermanView;
+
 import view.GamePanel;
 
 import java.util.HashSet;
@@ -48,7 +48,7 @@ public class Bomberman extends Character{
 		this.kicks_bombs = true;
 	}
 	private Bomberman() {
-		this.setHealth(1);
+		this.setHealth(2);
 		
 	}
 	
@@ -110,6 +110,9 @@ public class Bomberman extends Character{
 	@Override
 	public void move(int tile_size, TileModel[][] map_structure, ControlsHandler controls) {
 		if (!isDead()) {
+				if (this.invulnerability > 0) {
+					this.invulnerability-=1;					
+				}
 				Coordinates[] hit_box = this.collisionHitBox(tile_size);
 //				PowerUpModel power_up = this.getPower_up();
 				boolean needs_to_ghost = false;
@@ -264,6 +267,24 @@ public class Bomberman extends Character{
 		int hitBoxBottomLeft_y = getPos_y()+tile_size-1;
 		int hitBoxBottomRight_x = getPos_x() + tile_size - tile_size/5;
 		int hitBoxBottomRight_y = getPos_y()+ tile_size-1;
+		Coordinates[] hit_box = new Coordinates[4];
+		hit_box[0] = new Coordinates(hitBoxUpperLeft_x, hitBoxUpperLeft_y);
+		hit_box[1] = new Coordinates(hitBoxUpperRight_x, hitBoxUpperRight_y);
+		hit_box[2] = new Coordinates(hitBoxBottomRight_x, hitBoxBottomRight_y);
+		hit_box[3] = new Coordinates(hitBoxBottomLeft_x, hitBoxBottomLeft_y);
+		return hit_box;
+		
+	}
+	
+	public Coordinates[] damageHitBot(int tile_size) {
+		int hitBoxUpperLeft_x = getPos_x()+tile_size/5;
+		int hitBoxUpperLeft_y = getPos_y()+tile_size*1/5;
+		int hitBoxUpperRight_x = getPos_x() + tile_size - tile_size/5;
+		int hitBoxUpperRight_y = getPos_y()+tile_size*1/5;
+		int hitBoxBottomLeft_x = getPos_x()+tile_size/5;
+		int hitBoxBottomLeft_y = getPos_y()+tile_size-tile_size/5;
+		int hitBoxBottomRight_x = getPos_x() + tile_size - tile_size/5;
+		int hitBoxBottomRight_y = getPos_y()+ tile_size-tile_size/5;
 		Coordinates[] hit_box = new Coordinates[4];
 		hit_box[0] = new Coordinates(hitBoxUpperLeft_x, hitBoxUpperLeft_y);
 		hit_box[1] = new Coordinates(hitBoxUpperRight_x, hitBoxUpperRight_y);
