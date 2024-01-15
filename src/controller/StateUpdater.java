@@ -11,6 +11,7 @@ import model.BombModel;
 import model.TileModel;
 import model.Character;
 import view.GamePanel;
+import model.LaserUtil;
 
 public class StateUpdater {
 	
@@ -28,6 +29,19 @@ public class StateUpdater {
 	
 	public ArrayList<TileModel> getTiles_to_update() {
 		return tiles_to_update;
+	}
+	
+	public void manageLasers() {
+		var laser_tiles = this.map_entities.getLaser_tiles();
+		for (Iterator<Map.Entry<TileModel, LaserUtil>> iterator = laser_tiles.entrySet().iterator(); iterator.hasNext();) {
+	            TileModel t = iterator.next().getKey();
+	            if ( laser_tiles.get(t).i <= 0) {  
+	            	iterator.remove();
+	            }
+	           	else {
+	            	laser_tiles.put(t, new LaserUtil(laser_tiles.get(t).i - 1,laser_tiles.get(t).dir ));
+	           	} 
+	    	}
 	}
 
 
@@ -69,6 +83,7 @@ public class StateUpdater {
             }
         }
     }
+
 	
 	public void manageCharacters() {
 		for (Iterator<Character> iterator = this.game_setup.getCharacterModelsView().keySet().iterator(); iterator.hasNext();) {

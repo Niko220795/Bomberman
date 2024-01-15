@@ -26,6 +26,28 @@ public class Renderer {
 		this.map_entities = map_entities;
 	}
 	
+	
+public void drawLaser(Graphics g) {
+	var laser_tiles = this.map_entities.getLaser_tiles();
+	for (TileModel t : laser_tiles.keySet()) {
+		int x = t.getMatrix_pos_col()*GamePanel.FINAL_TILE_SIZE;
+		int y = t.getMatrix_pos_row()*GamePanel.FINAL_TILE_SIZE;
+		System.out.println(laser_tiles.get(t).dir);
+		BufferedImage laser;
+		switch(laser_tiles.get(t).dir) {
+		case UP, DOWN:		
+			laser = this.game_setup.getLaser_view().getV_sprite();
+			break;
+		case LEFT, RIGHT:
+			laser = this.game_setup.getLaser_view().getH_sprite();
+			break;
+		default:
+			laser = this.game_setup.getLaser_view().getH_sprite();
+		}
+		g.drawImage(laser, x, y, GamePanel.FINAL_TILE_SIZE, GamePanel.FINAL_TILE_SIZE, null);
+		
+	}
+}
 public void drawCharacters(Graphics g) {
 	for (Character c : this.game_setup.getCharacterModelsView().keySet()) {
 		CharacterView view = this.game_setup.getCharacterModelsView().get(c);

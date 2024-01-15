@@ -56,6 +56,7 @@ public abstract class Character extends Entity{
 	
 	public abstract void move(int tile_size, TileModel[][] map_structure, ControlsHandler control);
 	public abstract boolean checkCollision(Coordinates[] hit_box, Direction dir, TileModel[][] map_structure, int tile_size);
+	public abstract Coordinates[] damageHitBox(int tile_size);
 	
 	public Coordinates[] hitBox(int tile_size) {
 		Coordinates[] hit_box = new Coordinates[4];

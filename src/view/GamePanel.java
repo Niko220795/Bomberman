@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable{
 //				Bomberman.getInstance().getPos_x(), Bomberman.getInstance().getPos_y(),
 //				this.game_setup.getBomberman_view().getSpriteWidth()*2, this.game_setup.getBomberman_view().getSpriteHeight()*2,	 null);
 		this.renderer.drawBombs(g);
+		this.renderer.drawLaser(g);
 	}
 	
 	
@@ -67,6 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
 			Bomberman.getInstance().placeBomb(game_setup);
 			this.state_updater.updateBombTimer();
 			this.state_updater.explodeBlocks();
+			this.state_updater.manageLasers();
 			repaint();
 			try {
 				Thread.sleep(25);

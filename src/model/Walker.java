@@ -295,30 +295,22 @@ public class Walker extends Enemy{
 	}
 
 	@Override
-	public boolean hasDamagedBomberman(int tile_size, Coordinates[] hit_box) {
-		Bomberman b = Bomberman.getInstance();
-//		if ((b.getPos_x()+10 <= hit_box[0].i && hit_box[0].i <= b.getPos_x()+tile_size-10) || 
-//				(b.getPos_x()+10 <= hit_box[1].i && hit_box[1].i <= b.getPos_x() + tile_size-10)) {
-//			if ((b.getPos_y()+10 <= hit_box[0].j && hit_box[0].j <= b.getPos_y()+tile_size-10) || 
-//					(b.getPos_y()+10 <= hit_box[3].j && hit_box[3].j <= b.getPos_y()+tile_size-10)) {
-//				if(this.damage_timer <= 0) {					
-////					b.damage();
-////					System.out.println("hit");
-//					this.damage_timer = 1000;
-//					return true;
-//				}
-//			}
-//			
-//		}
-//		return false;
-		Coordinates[] b_hit_box = b.damageHitBox(tile_size);
-		for (Coordinates c : b_hit_box) {
-			if (c.i > hit_box[0].i && c.i < hit_box[1].i && c.j > hit_box[0].j && c.j < hit_box[2].j) {
-				System.out.println("hit");
-				return true;
-			}
-		}
-		return false;
+	public Coordinates[] damageHitBox(int tile_size) {
+		int hitBoxUpperLeft_x = getPos_x()+tile_size/5;
+		int hitBoxUpperLeft_y = getPos_y()+tile_size*1/5;
+		int hitBoxUpperRight_x = getPos_x() + tile_size - tile_size/5;
+		int hitBoxUpperRight_y = getPos_y()+tile_size*1/5;
+		int hitBoxBottomLeft_x = getPos_x()+tile_size/5;
+		int hitBoxBottomLeft_y = getPos_y()+tile_size-tile_size/5;
+		int hitBoxBottomRight_x = getPos_x() + tile_size - tile_size/5;
+		int hitBoxBottomRight_y = getPos_y()+ tile_size-tile_size/5;
+		Coordinates[] hit_box = new Coordinates[4];
+		hit_box[0] = new Coordinates(hitBoxUpperLeft_x, hitBoxUpperLeft_y);
+		hit_box[1] = new Coordinates(hitBoxUpperRight_x, hitBoxUpperRight_y);
+		hit_box[2] = new Coordinates(hitBoxBottomRight_x, hitBoxBottomRight_y);
+		hit_box[3] = new Coordinates(hitBoxBottomLeft_x, hitBoxBottomLeft_y);
+		return hit_box;
+		
 	}
 
 	

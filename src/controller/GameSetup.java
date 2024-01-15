@@ -6,6 +6,8 @@ import java.util.HashMap;
 import view.EntityView;
 import model.Bomberman;
 import model.Character;
+import model.Direction;
+import model.Laserer;
 import model.MapModel;
 import model.TileModel;
 import model.Walker;
@@ -16,6 +18,9 @@ import view.EnemyView;
 import view.FinestraDiGioco;
 import view.TileView;
 import view.WalkerView;
+import view.ImmobileView;
+import view.LaserView;
+import view.CharacterView;
 
 public class GameSetup {
 
@@ -23,6 +28,7 @@ public class GameSetup {
 	FinestraDiGioco fdg;
 	TileModel[][] map_structure;
 	BombermanView bomberman_view;
+	LaserView laser_view;
 	Bomberman bomberman = Bomberman.getInstance();
 	TileView tile_view;
 	MapEntities map_entities;
@@ -32,17 +38,22 @@ public class GameSetup {
 	
 	
 	public GameSetup(String map_name) {
-		this.initializeCharacterView();
+		this.laser_view = new LaserView();
 		this.bomb_view = new BombView();
 		this.controls = new ControlsHandler();
 		this.tile_view = new TileView(map_name, 24, ".png");
 		bomberman_view = new BombermanView();
 		bomberman.addObserver(bomberman_view);
 		this.map_entities = new MapEntities();
+		this.initializeCharacterView();
 		int[] arr = new int[] {1};
 		MapModel map = new MapModel("src/resources/map.txt", arr,arr,arr);
 		this.map_structure = map.getMapStructure();
 		
+	}
+
+	public LaserView getLaser_view() {
+		return laser_view;
 	}
 
 	public HashMap<Character, CharacterView> getCharacterModelsView() {
@@ -53,6 +64,8 @@ public class GameSetup {
 		this.characterModelsView = new HashMap<Character,CharacterView>();
 		this.characterModelsView.put(Bomberman.getInstance(), new BombermanView());
 		this.characterModelsView.put(new Walker(138,252), new EnemyView());
+		this.characterModelsView.put(new Laserer(138,252, Direction.RIGHT, this.map_entities.getLaser_tiles()), new ImmobileView());
+
 		for (Character c : this.characterModelsView.keySet()) {
 			c.addObserver(this.characterModelsView.get(c));
 		}

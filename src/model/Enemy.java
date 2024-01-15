@@ -31,7 +31,7 @@ public abstract class Enemy extends Character {
 
 	@Override
 	public boolean checkDamage(TileModel[][] map_structure) {
-		Coordinates[] hitbox = this.collisionHitBox(GamePanel.FINAL_TILE_SIZE);
+		Coordinates[] hitbox = damageHitBox(GamePanel.FINAL_TILE_SIZE);
 		for (Coordinates c : hitbox) {
 			int row = c.j/GamePanel.FINAL_TILE_SIZE;
 			int col = c.i/GamePanel.FINAL_TILE_SIZE;
@@ -42,9 +42,20 @@ public abstract class Enemy extends Character {
 		return false;
 	}
 	
-	public abstract boolean hasDamagedBomberman(int tile_size, Coordinates[] hit_box);
 
-		
+	public boolean hasDamagedBomberman(int tile_size, Coordinates[] hit_box) {
+		Bomberman b = Bomberman.getInstance();
+
+		Coordinates[] b_hit_box = b.damageHitBox(tile_size);
+		for (Coordinates c : b_hit_box) {
+			if (c.i > hit_box[0].i && c.i < hit_box[1].i && c.j > hit_box[0].j && c.j < hit_box[2].j) {
+				System.out.println("hit");
+				return true;
+			}
+		}
+		return false;
+	}
+	
 		
 		
 	
