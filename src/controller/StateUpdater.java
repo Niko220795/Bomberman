@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import model.Projectile;
 import controller.Coordinates;
 //import model.PowerUpModel;
 import model.BombModel;
@@ -29,6 +30,19 @@ public class StateUpdater {
 	
 	public ArrayList<TileModel> getTiles_to_update() {
 		return tiles_to_update;
+	}
+	
+	public void manageProjectiles() {
+		var projectiles = this.map_entities.getProjectiles();
+		for (Iterator<Projectile> iterator = projectiles.iterator(); iterator.hasNext();) {
+			Projectile p = iterator.next();
+			if (p.is_expired()) {
+				iterator.remove();
+			}
+			else {
+				p.move(GamePanel.FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());;
+			}
+		}
 	}
 	
 	public void manageLasers() {

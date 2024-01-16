@@ -9,6 +9,7 @@ import model.Character;
 import model.Direction;
 import model.Laserer;
 import model.MapModel;
+import model.Shooter;
 import model.TileModel;
 import model.Walker;
 import view.BombView;
@@ -20,6 +21,7 @@ import view.TileView;
 import view.WalkerView;
 import view.ImmobileView;
 import view.LaserView;
+import view.ShooterView;
 import view.CharacterView;
 
 public class GameSetup {
@@ -63,8 +65,10 @@ public class GameSetup {
 	public void initializeCharacterView() {
 		this.characterModelsView = new HashMap<Character,CharacterView>();
 		this.characterModelsView.put(Bomberman.getInstance(), new BombermanView());
-		this.characterModelsView.put(new Walker(144,252), new EnemyView());
-		this.characterModelsView.put(new Laserer(144,252, Direction.LEFT, this.map_entities.getLaser_tiles()), new ImmobileView());
+//		this.characterModelsView.put(new Walker(144,252), new WalkerView());
+		this.characterModelsView.put(new Shooter(144,252, this.map_entities.getProjectiles()), new ShooterView());
+
+//		this.characterModelsView.put(new Laserer(144,252, Direction.LEFT, this.map_entities.getLaser_tiles()), new ImmobileView());
 
 		for (Character c : this.characterModelsView.keySet()) {
 			c.addObserver(this.characterModelsView.get(c));

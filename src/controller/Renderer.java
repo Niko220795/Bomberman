@@ -5,16 +5,19 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import controller.Coordinates;
 import model.BombModel;
 import model.Bomberman;
 import model.Character;
+import model.Projectile;
 import model.TileModel;
 import view.BombView;
 import view.CharacterView;
 //import model.PowerUpModel;
 import view.GamePanel;
+import view.ShooterView;
 
 public class Renderer {
 	GameSetup game_setup;
@@ -49,6 +52,15 @@ public void drawLaser(Graphics g) {
 		
 	}
 }
+
+public void drawProjectiles(Graphics g) {
+	var projectile = ShooterView.getProjectileSprite();
+	var projectiles = this.map_entities.getProjectiles();
+	for (Projectile p : projectiles) {
+		g.drawImage(projectile, p.getPos_x(), p.getPos_y(), GamePanel.FINAL_TILE_SIZE, GamePanel.FINAL_TILE_SIZE, null);
+	}
+}
+
 public void drawCharacters(Graphics g) {
 	for (Character c : this.game_setup.getCharacterModelsView().keySet()) {
 		CharacterView view = this.game_setup.getCharacterModelsView().get(c);
