@@ -30,9 +30,10 @@ public class Renderer {
 public void drawLaser(Graphics g) {
 	var laser_tiles = this.map_entities.getLaser_tiles();
 	for (TileModel t : laser_tiles.keySet()) {
+		System.out.println(t.getMatrix_pos_col());
+		System.out.println(t.getMatrix_pos_row());
 		int x = t.getMatrix_pos_col()*GamePanel.FINAL_TILE_SIZE;
 		int y = t.getMatrix_pos_row()*GamePanel.FINAL_TILE_SIZE;
-		System.out.println(laser_tiles.get(t).dir);
 		BufferedImage laser;
 		switch(laser_tiles.get(t).dir) {
 		case UP, DOWN:		

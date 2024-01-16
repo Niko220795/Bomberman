@@ -63,8 +63,8 @@ public class GameSetup {
 	public void initializeCharacterView() {
 		this.characterModelsView = new HashMap<Character,CharacterView>();
 		this.characterModelsView.put(Bomberman.getInstance(), new BombermanView());
-		this.characterModelsView.put(new Walker(138,252), new EnemyView());
-		this.characterModelsView.put(new Laserer(138,252, Direction.RIGHT, this.map_entities.getLaser_tiles()), new ImmobileView());
+		this.characterModelsView.put(new Walker(144,252), new EnemyView());
+		this.characterModelsView.put(new Laserer(144,252, Direction.LEFT, this.map_entities.getLaser_tiles()), new ImmobileView());
 
 		for (Character c : this.characterModelsView.keySet()) {
 			c.addObserver(this.characterModelsView.get(c));

@@ -29,7 +29,6 @@ public class Laserer extends Enemy {
 			if (this.laser_tiles.containsKey(map_structure[row][col])){
 				if (this.laser_damage_cd <= 0) {
 					b.damage();			
-					System.out.println("hit LASER");
 					this.laser_damage_cd = 100;
 				}
 			}
@@ -43,7 +42,6 @@ public class Laserer extends Enemy {
 		if (shooting_cd == 0) {
 			this.shootLaser(tile_size, map_structure, this.laser_tiles);
 			
-			System.out.println("shoot laser");
 			shooting_cd = 200;
 		}
 		else {
@@ -73,7 +71,9 @@ public class Laserer extends Enemy {
 	
 	public void shootLaser(int tile_size, TileModel[][] map_structure, HashMap<TileModel, LaserUtil> laser_tiles) {
 		int pos_row = this.getPos_y()/tile_size;
-		int pos_col = this.getPos_y()/tile_size;
+		int pos_col = this.getPos_x()/tile_size;
+		System.out.println("laserer + " + pos_row);
+		System.out.println("laserer + " + pos_col);
 		int i = 1;
 		switch(this.shooting_dir) {
 		case UP:
@@ -89,10 +89,8 @@ public class Laserer extends Enemy {
 			}
 			break;
 		case DOWN:
-			System.out.println("insisde down");
 			while(!map_structure[pos_row + i][pos_col].getCollision()) {
 				this.laser_tiles.put(map_structure[pos_row + i][pos_col], new LaserUtil(50, this.shooting_dir));
-				System.out.println(this.laser_tiles.size() + i);
 				i+=1;
 			}
 			break;
