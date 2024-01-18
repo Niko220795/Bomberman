@@ -10,6 +10,7 @@ import controller.Coordinates;
 //import model.PowerUpModel;
 import model.BombModel;
 import model.TileModel;
+import model.TrapModel;
 import model.Character;
 import view.GamePanel;
 import model.LaserUtil;
@@ -41,6 +42,24 @@ public class StateUpdater {
 			}
 			else {
 				p.move(GamePanel.FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());;
+			}
+		}
+	}
+	
+	public void manageTraps() {
+		var traps = this.map_entities.getTraps();
+		for (Iterator<TrapModel> iterator = traps.iterator(); iterator.hasNext();) {
+			TrapModel trap = iterator.next();
+			if (trap.has_expired()) {
+				this.game_setup.map_structure[trap.getRow()][trap.getCol()].resetTrap();
+				iterator.remove();
+			}
+			else if(trap.isSteppedOn()) {
+				this.game_setup.map_structure[trap.getRow()][trap.getCol()].resetTrap();
+				iterator.remove();
+			}
+			else {
+				trap.decreaseDuration();
 			}
 		}
 	}

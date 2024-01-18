@@ -15,8 +15,26 @@ public class TileModel {
 	private boolean is_destructible = true;
 	public int destruction_counter = 40;
 	public BombModel placedBomb = null;
-	public boolean is_disappearing = false;
+	private boolean disappearing = false;
+	private boolean has_trap = false;
+	private TrapModel placed_trap = null;
 	
+	public boolean hasTrap() {
+		return this.placed_trap != null;
+	}
+
+	public void setTrap(TrapModel trap) {
+		this.placed_trap = trap;
+	}
+	
+	public void resetTrap() {
+		this.placed_trap = null;
+	}
+
+	public TrapModel getPlaced_trap() {
+		return placed_trap;
+	}
+
 	public TileModel(int i) {
 		this.model_num = i;
 	}
@@ -25,10 +43,10 @@ public class TileModel {
 //	}
 	
 	public boolean isDisappearing() {
-		return this.is_disappearing;
+		return this.disappearing;
 	}
 	public void setDisappearing(boolean b) {
-		this.is_disappearing = b;
+		this.disappearing = b;
 	}
 	
 	private boolean border = false;

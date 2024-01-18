@@ -306,6 +306,13 @@ public class Bomberman extends Character{
 				return true;
 			}
 		}
+		int row = (Bomberman.getInstance().getPos_y()+GamePanel.FINAL_TILE_SIZE/2)/GamePanel.FINAL_TILE_SIZE;
+		int col = (Bomberman.getInstance().getPos_x()+GamePanel.FINAL_TILE_SIZE/2)/GamePanel.FINAL_TILE_SIZE;
+		if ( map_structure[row][col].hasTrap()) {
+			map_structure[row][col].getPlaced_trap().step_on();
+			map_structure[row][col].resetTrap();
+			return true;
+		}
 		return false;
 	}
 

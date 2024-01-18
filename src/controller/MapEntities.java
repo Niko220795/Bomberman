@@ -8,13 +8,18 @@ import model.LaserUtil;
 import model.Projectile;
 import model.BombModel;
 import model.TileModel;
+import model.TrapModel;
 
 public class MapEntities {
 	private HashMap<BombModel, HashSet<TileModel>> placed_bombs;
 	private HashMap<TileModel, LaserUtil> laser_tiles;
 	private ArrayList<Projectile> projectiles;
+	private ArrayList<TrapModel> traps;
 
 	
+	public ArrayList<TrapModel> getTraps() {
+		return traps;
+	}
 	public HashMap<TileModel, LaserUtil> getLaser_tiles() {
 		return laser_tiles;
 	}
@@ -22,7 +27,9 @@ public class MapEntities {
 		this.placed_bombs = new HashMap<BombModel, HashSet<TileModel>>();
 		this.laser_tiles = new HashMap<TileModel, LaserUtil>();
 		this.projectiles = new ArrayList<Projectile>();
+		this.traps = new ArrayList<TrapModel>();
 	}
+	
 	public ArrayList<Projectile> getProjectiles() {
 		return projectiles;
 	}

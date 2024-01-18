@@ -13,11 +13,13 @@ import model.Bomberman;
 import model.Character;
 import model.Projectile;
 import model.TileModel;
+import model.TrapModel;
 import view.BombView;
 import view.CharacterView;
 //import model.PowerUpModel;
 import view.GamePanel;
 import view.ShooterView;
+import view.TrapperView;
 
 public class Renderer {
 	GameSetup game_setup;
@@ -61,6 +63,16 @@ public void drawProjectiles(Graphics g) {
 	}
 }
 
+public void drawTraps(Graphics g) {
+	var trap = TrapperView.getTrapSprite();
+	var traps = this.map_entities.getTraps();
+	for (TrapModel t : traps) {
+		g.drawImage(trap, t.getCol()*GamePanel.FINAL_TILE_SIZE, t.getRow()*GamePanel.FINAL_TILE_SIZE,
+		GamePanel.FINAL_TILE_SIZE, GamePanel.FINAL_TILE_SIZE, null);
+
+	}
+}
+
 public void drawCharacters(Graphics g) {
 	for (Character c : this.game_setup.getCharacterModelsView().keySet()) {
 		CharacterView view = this.game_setup.getCharacterModelsView().get(c);
@@ -93,7 +105,7 @@ public void drawTile(Graphics g, TileModel[][] mapStructure) {
 			for (int k = 0; k < v_tiles_num; k++) {
 				TileModel tile = mapStructure[k][j];
 				int tile_num = tile.getModel_num();
-				if (tile.is_disappearing) {
+				if (tile.isDisappearing()) {
 					g.drawImage(game_setup.getTile_view().getExploding_block()[5-(tile.destruction_counter/10)%6], j*tile_width, k*tile_width, tile_width, tile_width, null);
 				}
 				else {

@@ -11,6 +11,7 @@ import model.Laserer;
 import model.MapModel;
 import model.Shooter;
 import model.TileModel;
+import model.Trapper;
 import model.Walker;
 import view.BombView;
 import view.BombermanView;
@@ -18,6 +19,7 @@ import view.CharacterView;
 import view.EnemyView;
 import view.FinestraDiGioco;
 import view.TileView;
+import view.TrapperView;
 import view.WalkerView;
 import view.ImmobileView;
 import view.LaserView;
@@ -66,8 +68,8 @@ public class GameSetup {
 		this.characterModelsView = new HashMap<Character,CharacterView>();
 		this.characterModelsView.put(Bomberman.getInstance(), new BombermanView());
 //		this.characterModelsView.put(new Walker(144,252), new WalkerView());
-		this.characterModelsView.put(new Shooter(144,252, this.map_entities.getProjectiles()), new ShooterView());
-
+//		this.characterModelsView.put(new Shooter(144,252, this.map_entities.getProjectiles()), new ShooterView());
+		this.characterModelsView.put(new Trapper(144,252, this.map_entities.getTraps(), this), new TrapperView());
 //		this.characterModelsView.put(new Laserer(144,252, Direction.LEFT, this.map_entities.getLaser_tiles()), new ImmobileView());
 
 		for (Character c : this.characterModelsView.keySet()) {
