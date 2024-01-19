@@ -18,6 +18,11 @@ public class TileModel {
 	private boolean disappearing = false;
 	private boolean has_trap = false;
 	private TrapModel placed_trap = null;
+	private boolean border = false;
+	
+	public TileModel(int i) {
+		this.model_num = i;
+	}
 	
 	public boolean hasTrap() {
 		return this.placed_trap != null;
@@ -35,9 +40,6 @@ public class TileModel {
 		return placed_trap;
 	}
 
-	public TileModel(int i) {
-		this.model_num = i;
-	}
 //	public BombModel getPlacedBomb() {
 //		return placedBomb;
 //	}
@@ -49,7 +51,6 @@ public class TileModel {
 		this.disappearing = b;
 	}
 	
-	private boolean border = false;
 
 	public void setPlacedBomb(BombModel placedBomb) {
 		this.placedBomb = placedBomb;

@@ -11,11 +11,13 @@ import controller.Coordinates;
 import model.BombModel;
 import model.Bomberman;
 import model.Character;
+import model.FatBoss;
 import model.Projectile;
 import model.TileModel;
 import model.TrapModel;
 import view.BombView;
 import view.CharacterView;
+import view.EntityView;
 //import model.PowerUpModel;
 import view.GamePanel;
 import view.ShooterView;
@@ -75,7 +77,7 @@ public void drawTraps(Graphics g) {
 
 public void drawCharacters(Graphics g) {
 	for (Character c : this.game_setup.getCharacterModelsView().keySet()) {
-		CharacterView view = this.game_setup.getCharacterModelsView().get(c);
+		EntityView view = this.game_setup.getCharacterModelsView().get(c);
 		if (c.isDead()) {
 			BufferedImage sprite = view.getDeadSprite(c.getDeath_animation_counter());
 			g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);
@@ -88,13 +90,20 @@ public void drawCharacters(Graphics g) {
 					g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);				
 				}
 			}
+			else if (c instanceof FatBoss) {
+				g.drawImage(sprite, c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
+				g.drawRect(c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2);
+
+			}
 			else {
 				g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
+				g.drawRect(c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2);
 			}
 
 		}
 	}
 }
+
 
 public void drawTile(Graphics g, TileModel[][] mapStructure) {
 		

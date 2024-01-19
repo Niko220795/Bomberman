@@ -25,6 +25,8 @@ import view.ImmobileView;
 import view.LaserView;
 import view.ShooterView;
 import view.CharacterView;
+import view.FatBossView;
+import model.FatBoss;
 
 public class GameSetup {
 
@@ -37,7 +39,7 @@ public class GameSetup {
 	TileView tile_view;
 	MapEntities map_entities;
 	BombView bomb_view;
-	HashMap<Character, CharacterView> characterModelsView ;
+	HashMap<Character, EntityView> characterModelsView ;
 
 	
 	
@@ -51,7 +53,9 @@ public class GameSetup {
 		this.map_entities = new MapEntities();
 		this.initializeCharacterView();
 		int[] arr = new int[] {1};
-		MapModel map = new MapModel("src/resources/map.txt", arr,arr,arr);
+		int[] arr2 = new int[] {};
+
+		MapModel map = new MapModel("src/resources/map.txt", arr,arr2,arr2);
 		this.map_structure = map.getMapStructure();
 		
 	}
@@ -60,18 +64,19 @@ public class GameSetup {
 		return laser_view;
 	}
 
-	public HashMap<Character, CharacterView> getCharacterModelsView() {
+	public HashMap<Character, EntityView> getCharacterModelsView() {
 		return characterModelsView;
 	}
 
 	public void initializeCharacterView() {
-		this.characterModelsView = new HashMap<Character,CharacterView>();
+		this.characterModelsView = new HashMap<Character,EntityView>();
 		this.characterModelsView.put(Bomberman.getInstance(), new BombermanView());
 //		this.characterModelsView.put(new Walker(144,252), new WalkerView());
 //		this.characterModelsView.put(new Shooter(144,252, this.map_entities.getProjectiles()), new ShooterView());
-		this.characterModelsView.put(new Trapper(144,252, this.map_entities.getTraps(), this), new TrapperView());
+//		this.characterModelsView.put(new Trapper(144,252, this.map_entities.getTraps(), this), new TrapperView());
 //		this.characterModelsView.put(new Laserer(144,252, Direction.LEFT, this.map_entities.getLaser_tiles()), new ImmobileView());
 
+		this.characterModelsView.put(new FatBoss(300,250), new FatBossView());
 		for (Character c : this.characterModelsView.keySet()) {
 			c.addObserver(this.characterModelsView.get(c));
 		}
