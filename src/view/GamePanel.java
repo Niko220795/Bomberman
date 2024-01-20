@@ -58,6 +58,8 @@ public class GamePanel extends JPanel implements Runnable{
 		this.renderer.drawLaser(g);
 		this.renderer.drawProjectiles(g);
 		this.renderer.drawTraps(g);
+		this.renderer.drawBossProjectiles(g);
+		this.renderer.drawPowerUps(g);
 	}
 	
 	
@@ -69,10 +71,11 @@ public class GamePanel extends JPanel implements Runnable{
 			this.state_updater.manageCharacters();
 			Bomberman.getInstance().placeBomb(game_setup);
 			this.state_updater.updateBombTimer();
-			this.state_updater.explodeBlocks();
+			this.state_updater.manageTiles();
 			this.state_updater.manageLasers();
 			this.state_updater.manageProjectiles();
 			this.state_updater.manageTraps();
+			this.state_updater.manageBossProjectiles();
 			repaint();
 			try {
 				Thread.sleep(25);

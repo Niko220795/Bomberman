@@ -9,6 +9,7 @@ import view.GamePanel;
 public class FatBoss extends Walker {
 	int attack_timer = 1500;
 	int state = 0;
+	int moving_timer = 0;
 	
 	@Override
 	public boolean checkCollision(Coordinates[] hit_box, Direction dir, TileModel[][] map_structure, int tile_size) {
@@ -76,11 +77,15 @@ public class FatBoss extends Walker {
 		this.state = 2 - this.attack_timer/500;
 		if (!this.isDead() && this.attack_timer > 500) {
 			Coordinates[] hit_box = this.collisionHitBox(tile_size);
-			int i = r.nextInt(20);	
-			if (i == 0) {
+			if (moving_timer == 100) {
 				changeDir();
+				moving_timer = 0;
+			}
+			else {
+				moving_timer++;
 			}
 			
+	
 			
 			if (this.dir == Direction.UP && 	getPos_y()-getMoveSpeed() >= 0) {
 				

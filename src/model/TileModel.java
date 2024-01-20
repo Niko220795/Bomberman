@@ -10,7 +10,7 @@ public class TileModel {
 	private int matrix_pos_row;
 	private int matrix_pos_col;
 	private int model_num;
-//	private PowerUpModel power_up;
+	private PowerUpModel power_up;
 	private boolean collision = true;
 	private boolean is_destructible = true;
 	public int destruction_counter = 40;
@@ -19,9 +19,14 @@ public class TileModel {
 	private boolean has_trap = false;
 	private TrapModel placed_trap = null;
 	private boolean border = false;
-	
+	private boolean contains_power_up = false;
 	public TileModel(int i) {
 		this.model_num = i;
+		int k = r.nextInt(5);
+		this.power_up = null;
+		if (k == 0) {
+			this.contains_power_up = true;
+		}
 	}
 	
 	public boolean hasTrap() {
@@ -67,30 +72,30 @@ public class TileModel {
 		return collision;
 	}
 	
-//	public boolean containsPowerUp() {
-//		return this.power_up != null;
-//	}
-	
-	public boolean hasPowerUp() {
-		int i = r.nextInt(3);
-		if (i == 0) {
-			return true;
-		}
-		return false;
+	public boolean containsPowerUp() {
+		return this.contains_power_up;
 	}
 	
+//	public boolean hasPowerUp() {
+//		int i = r.nextInt(3);
+//		if (i == 0) {
+//			return true;
+//		}
+//		return false;
+//	}
+//	
 	public boolean isExploding() {
 		return exploding;
 	}
 	
 	
-//	public PowerUpModel getPowerUp() {
-//		return this.power_up;
-//	}
-//	
-//	public void setPower_up(PowerUpModel power_up) {
-//		this.power_up = power_up;
-//	}
+	public PowerUpModel getPowerUp() {
+		return this.power_up;
+	}
+	
+	public void setPower_up(PowerUpModel power_up) {
+		this.power_up = power_up;
+	}
 
 	public void setExploding(boolean exploding) {
 		this.exploding = exploding;

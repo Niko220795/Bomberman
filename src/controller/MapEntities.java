@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import model.LaserUtil;
+import model.PowerUpModel;
 import model.Projectile;
 import model.BombModel;
+import model.BossProjectile;
 import model.TileModel;
 import model.TrapModel;
 
@@ -15,6 +17,8 @@ public class MapEntities {
 	private HashMap<TileModel, LaserUtil> laser_tiles;
 	private ArrayList<Projectile> projectiles;
 	private ArrayList<TrapModel> traps;
+	private ArrayList<BossProjectile> boss_projectiles;
+	private ArrayList<PowerUpModel> power_ups;
 
 	
 	public ArrayList<TrapModel> getTraps() {
@@ -28,8 +32,16 @@ public class MapEntities {
 		this.laser_tiles = new HashMap<TileModel, LaserUtil>();
 		this.projectiles = new ArrayList<Projectile>();
 		this.traps = new ArrayList<TrapModel>();
+		this.boss_projectiles = new ArrayList<BossProjectile>();
+		this.power_ups = new ArrayList<PowerUpModel>();
 	}
 	
+	public ArrayList<PowerUpModel> getPower_ups() {
+		return power_ups;
+	}
+	public ArrayList<BossProjectile> getBoss_projectiles() {
+		return boss_projectiles;
+	}
 	public ArrayList<Projectile> getProjectiles() {
 		return projectiles;
 	}

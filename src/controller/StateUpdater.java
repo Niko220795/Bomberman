@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import model.BossProjectile;
 import model.Projectile;
 import controller.Coordinates;
 //import model.PowerUpModel;
@@ -14,6 +15,7 @@ import model.TrapModel;
 import model.Character;
 import view.GamePanel;
 import model.LaserUtil;
+import model.PowerUpModel;
 
 public class StateUpdater {
 	
@@ -31,6 +33,19 @@ public class StateUpdater {
 	
 	public ArrayList<TileModel> getTiles_to_update() {
 		return tiles_to_update;
+	}
+	
+	public void manageBossProjectiles() {
+		var boss_projectiles = this.map_entities.getBoss_projectiles();
+		for (Iterator<BossProjectile> iterator = boss_projectiles.iterator(); iterator.hasNext();) {
+			BossProjectile p = iterator.next();
+			if (p.isDisappearing()) {
+				iterator.remove();
+			}
+			else {
+				p.move(GamePanel.getPanelWidth(), GamePanel.getPanelHeight(), GamePanel.FINAL_TILE_SIZE);
+			}
+		}
 	}
 	
 	public void manageProjectiles() {
@@ -78,22 +93,23 @@ public class StateUpdater {
 	}
 
 
-	public void explodeBlocks() {
+	public void manageTiles() {
 		Iterator<TileModel> iterator = this.tiles_to_update.iterator();
 	    while (iterator.hasNext()) {
 	        TileModel tile = iterator.next();
 	        if (tile.destruction_counter == 0){
 				tile.setModel_num(1);
-				boolean has_power_up = tile.hasPowerUp();
-//				if (has_power_up) {	
-//					int i = this.random_gen.nextInt(7);
-//					PowerUpModel power_up = new PowerUpModel(i, tile.getMatrix_pos_row(), tile.getMatrix_pos_col());
-//					this.powerUpList.add(power_up);
-//					tile.setPower_up(power_up);
-//				}
+				boolean has_power_up = tile.containsPowerUp();
+				if (has_power_up) {	
+					int i = this.game_setup.random_generator.nextInt(7);
+					PowerUpModel power_up = new PowerUpModel(i, tile.getMatrix_pos_row(), tile.getMatrix_pos_col());
+					this.map_entities.getPower_ups().add(power_up);
+					tile.setPower_up(power_up);
+				}
+
 				tile.setDisappearing(false);
 				tile.setCollision(false);	
-				iterator.remove();
+				iterator.remove();					
 			}
 			else {
 				tile.destruction_counter--;

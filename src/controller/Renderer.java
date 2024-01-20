@@ -7,17 +7,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import model.PowerUpModel;
+import model.BossProjectile;
 import controller.Coordinates;
 import model.BombModel;
 import model.Bomberman;
 import model.Character;
 import model.FatBoss;
+import model.FreezeBoss;
 import model.Projectile;
 import model.TileModel;
 import model.TrapModel;
 import view.BombView;
 import view.CharacterView;
 import view.EntityView;
+import view.FreezeBossView;
 //import model.PowerUpModel;
 import view.GamePanel;
 import view.ShooterView;
@@ -54,6 +58,15 @@ public void drawLaser(Graphics g) {
 		}
 		g.drawImage(laser, x, y, GamePanel.FINAL_TILE_SIZE, GamePanel.FINAL_TILE_SIZE, null);
 		
+	}
+}
+
+public void drawBossProjectiles(Graphics g) {
+	for (Iterator<BossProjectile> iterator = this.map_entities.getBoss_projectiles().iterator(); iterator.hasNext();) {
+		BossProjectile t = iterator.next();
+
+		g.drawImage(FreezeBossView.getProjectileSprite(), t.getPos_x(), t.getPos_y(), 
+				GamePanel.FINAL_TILE_SIZE, GamePanel.FINAL_TILE_SIZE, null);
 	}
 }
 
@@ -94,6 +107,10 @@ public void drawCharacters(Graphics g) {
 				g.drawImage(sprite, c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
 				g.drawRect(c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2);
 
+			}
+			else if (c instanceof FreezeBoss) {
+				g.drawImage(sprite, c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
+				g.drawRect(c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2);
 			}
 			else {
 				g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
@@ -290,6 +307,15 @@ public void drawTile(Graphics g, TileModel[][] mapStructure) {
 			}
 
 			b.explosionAnimationCounter++;
+		}
+	}
+	
+	public void drawPowerUps(Graphics g) {
+		for (PowerUpModel p : this.map_entities.getPower_ups()) {
+			g.drawImage(this.game_setup.getPower_up_view().getPowerUpSprite(p.getId()),
+					p.getCol()*GamePanel.FINAL_TILE_SIZE, p.getRow()*GamePanel.FINAL_TILE_SIZE, 
+					GamePanel.FINAL_TILE_SIZE, GamePanel.FINAL_TILE_SIZE, null);
+//			g.drawImage(this.powerUpIcons.icons.get(p.getId()), 10, 10, FINAL_TILE_SIZE/2, FINAL_TILE_SIZE/2, null);
 		}
 	}
 }

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import view.EntityView;
 import model.Bomberman;
@@ -18,15 +19,19 @@ import view.BombermanView;
 import view.CharacterView;
 import view.EnemyView;
 import view.FinestraDiGioco;
+import view.FreezeBossView;
 import view.TileView;
 import view.TrapperView;
 import view.WalkerView;
 import view.ImmobileView;
 import view.LaserView;
+import view.PowerUpView;
 import view.ShooterView;
 import view.CharacterView;
 import view.FatBossView;
 import model.FatBoss;
+import model.FreezeBoss;
+import view.FreezeBossView;
 
 public class GameSetup {
 
@@ -39,13 +44,15 @@ public class GameSetup {
 	TileView tile_view;
 	MapEntities map_entities;
 	BombView bomb_view;
+	PowerUpView power_up_view;
 	HashMap<Character, EntityView> characterModelsView ;
-
+	public static Random random_generator = new Random();
 	
 	
 	public GameSetup(String map_name) {
 		this.laser_view = new LaserView();
 		this.bomb_view = new BombView();
+		this.power_up_view = new PowerUpView();
 		this.controls = new ControlsHandler();
 		this.tile_view = new TileView(map_name, 24, ".png");
 		bomberman_view = new BombermanView();
@@ -58,6 +65,10 @@ public class GameSetup {
 		MapModel map = new MapModel("src/resources/map.txt", arr,arr2,arr2);
 		this.map_structure = map.getMapStructure();
 		
+	}
+
+	public PowerUpView getPower_up_view() {
+		return power_up_view;
 	}
 
 	public LaserView getLaser_view() {
@@ -76,7 +87,8 @@ public class GameSetup {
 //		this.characterModelsView.put(new Trapper(144,252, this.map_entities.getTraps(), this), new TrapperView());
 //		this.characterModelsView.put(new Laserer(144,252, Direction.LEFT, this.map_entities.getLaser_tiles()), new ImmobileView());
 
-		this.characterModelsView.put(new FatBoss(300,250), new FatBossView());
+//		this.characterModelsView.put(new FatBoss(300,250), new FatBossView());
+		this.characterModelsView.put(new FreezeBoss(300,300,this.map_entities.getBoss_projectiles()), new FreezeBossView());
 		for (Character c : this.characterModelsView.keySet()) {
 			c.addObserver(this.characterModelsView.get(c));
 		}
