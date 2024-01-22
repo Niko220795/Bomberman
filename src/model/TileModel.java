@@ -1,6 +1,8 @@
 package model;
 import java.util.Random;
 
+import controller.GameSetup;
+
 public class TileModel {
 	
 
@@ -19,14 +21,13 @@ public class TileModel {
 	private boolean has_trap = false;
 	private TrapModel placed_trap = null;
 	private boolean border = false;
-	private boolean contains_power_up = false;
 	public TileModel(int i) {
 		this.model_num = i;
-		int k = r.nextInt(5);
 		this.power_up = null;
-		if (k == 0) {
-			this.contains_power_up = true;
-		}
+	}
+	
+	public void removePowerUp() {
+		this.power_up = null;
 	}
 	
 	public boolean hasTrap() {
@@ -45,9 +46,9 @@ public class TileModel {
 		return placed_trap;
 	}
 
-//	public BombModel getPlacedBomb() {
-//		return placedBomb;
-//	}
+	public BombModel getPlacedBomb() {
+		return placedBomb;
+	}
 	
 	public boolean isDisappearing() {
 		return this.disappearing;
@@ -73,7 +74,14 @@ public class TileModel {
 	}
 	
 	public boolean containsPowerUp() {
-		return this.contains_power_up;
+		int k = GameSetup.random_generator.nextInt(5);
+		this.power_up = null;
+		if (k == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 //	public boolean hasPowerUp() {

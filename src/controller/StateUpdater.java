@@ -92,6 +92,11 @@ public class StateUpdater {
 	    	}
 	}
 
+	public void slideBombs() {
+		for (BombModel b : this.map_entities.getPlaced_bombs().keySet()) {
+			b.slide(b.getSlide_dir(), this.game_setup.getMap_structure());
+		}
+	}
 
 	public void manageTiles() {
 		Iterator<TileModel> iterator = this.tiles_to_update.iterator();
@@ -101,7 +106,7 @@ public class StateUpdater {
 				tile.setModel_num(1);
 				boolean has_power_up = tile.containsPowerUp();
 				if (has_power_up) {	
-					int i = this.game_setup.random_generator.nextInt(7);
+					int i = this.game_setup.random_generator.nextInt(7,8);
 					PowerUpModel power_up = new PowerUpModel(i, tile.getMatrix_pos_row(), tile.getMatrix_pos_col());
 					this.map_entities.getPower_ups().add(power_up);
 					tile.setPower_up(power_up);
@@ -115,6 +120,16 @@ public class StateUpdater {
 				tile.destruction_counter--;
 			}
 	    }
+	}
+	
+	public void managePowerUps() {
+		Iterator<PowerUpModel> iterator = this.map_entities.getPower_ups().iterator();
+		while(iterator.hasNext()) {
+			PowerUpModel power_up = iterator.next();
+			if (power_up.isPicked_up()) {
+				iterator.remove();
+			}
+		}
 	}
 
 	public void updateBombTimer() {

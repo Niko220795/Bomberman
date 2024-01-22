@@ -76,9 +76,9 @@ public class Main{
 		frame.setTitle("test");
 		GamePanel gp = new GamePanel();
 		frame.getContentPane().add(gp);
-		frame.setLocationRelativeTo(null);
 		frame.pack();
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 //		m.loadUser();
 //		m.setVisible(true);;
 //		Main main_controller = new Main();

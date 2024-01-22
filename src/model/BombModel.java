@@ -87,11 +87,11 @@ public class BombModel extends Entity {
 		return hasExpired;
 	}
 
-	public boolean isCan_slide() {
+	public boolean canSlide() {
 		return can_slide;
 	}
 
-	public void setCan_slide(boolean can_slide) {
+	public void setSliding(boolean can_slide) {
 		this.can_slide = can_slide;
 	}
 
@@ -130,6 +130,10 @@ public class BombModel extends Entity {
 				
 			}
 		}
+	}
+
+	public Direction getSlide_dir() {
+		return slide_dir;
 	}
 
 	public void setSlide_dir(Direction slide_dir) {

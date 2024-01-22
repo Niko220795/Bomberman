@@ -76,6 +76,9 @@ public class GamePanel extends JPanel implements Runnable{
 			this.state_updater.manageProjectiles();
 			this.state_updater.manageTraps();
 			this.state_updater.manageBossProjectiles();
+			this.state_updater.managePowerUps();
+			Bomberman.getInstance().kickBombs(game_setup);
+			this.state_updater.slideBombs();
 			repaint();
 			try {
 				Thread.sleep(25);
