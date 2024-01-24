@@ -17,7 +17,7 @@ import controller.NewGameButtonListener;
 import controller.UserSetter;
 import model.User;
 
-public class MainMenu extends JFrame {
+public class MainMenu {
 
 	public User[] users = new User[3];
 	public User playing_user = new User("default", 0);
@@ -28,17 +28,30 @@ public class MainMenu extends JFrame {
 
 	public MainMenu() {
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 768, 576);
-		this.getContentPane().setLayout(null);
+		JFrame window = new JFrame();
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		window.setBounds(100, 100, 768, 576);
+//		window.setPreferredSize(new Dimension(768,576));
+//		window.getContentPane().setLayout(null);
 		
 		JPanel panel = new Menu();
+		JButton play = new JButton("New button");
+		play.setOpaque(false);
+		play.setContentAreaFilled(false);
+		play.setBorderPainted(false);
+		play.setIcon(new ImageIcon("src/resources/menu/btn-play.png"));
+		play.setBounds(500, 450, 150, 50);
+
+		play.setVisible(true);
+		panel.add(play);
 		panel.setLayout(null);
-		panel.setForeground(new Color(0, 0, 255));
-		panel.setBounds(0, 0, 768, 576);
-		this.getContentPane().add(panel);
-		this.loadUsers();
-		this.instantiate_buttons(panel);
+		window.getContentPane().add(panel);
+		window.pack();
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
+		
+//		this.loadUsers();
+//		this.instantiate_buttons(panel);
 //		
 //		menu.setVisible(true);
 //		menu.repaint();

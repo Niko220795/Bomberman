@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -49,17 +50,23 @@ public class GamePanel extends JPanel implements Runnable{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		this.renderer.drawTile(g, this.game_setup.getMap_structure());
-		this.renderer.drawCharacters(g);
+		if (this.game_setup.isGame_over()) {
+			g.drawImage(this.game_setup.getMenu().game_over, 0, 0, 768, 576, null);
+		}
+		else {
+			
+			this.renderer.drawTile(g, this.game_setup.getMap_structure());
+			this.renderer.drawCharacters(g);
 //		g.drawImage(this.game_setup.getBomberman_view().getSprite(),
 //				Bomberman.getInstance().getPos_x(), Bomberman.getInstance().getPos_y(),
 //				this.game_setup.getBomberman_view().getSpriteWidth()*2, this.game_setup.getBomberman_view().getSpriteHeight()*2,	 null);
-		this.renderer.drawBombs(g);
-		this.renderer.drawLaser(g);
-		this.renderer.drawProjectiles(g);
-		this.renderer.drawTraps(g);
-		this.renderer.drawBossProjectiles(g);
-		this.renderer.drawPowerUps(g);
+			this.renderer.drawBombs(g);
+			this.renderer.drawLaser(g);
+			this.renderer.drawProjectiles(g);
+			this.renderer.drawTraps(g);
+			this.renderer.drawBossProjectiles(g);
+			this.renderer.drawPowerUps(g);
+		}
 	}
 	
 	
@@ -67,26 +74,37 @@ public class GamePanel extends JPanel implements Runnable{
 	@Override
 	public void run() {
 		while(true) {
-//			Bomberman.getInstance().move(FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());
-			this.state_updater.manageCharacters();
-			Bomberman.getInstance().placeBomb(game_setup);
-			this.state_updater.updateBombTimer();
-			this.state_updater.manageTiles();
-			this.state_updater.manageLasers();
-			this.state_updater.manageProjectiles();
-			this.state_updater.manageTraps();
-			this.state_updater.manageBossProjectiles();
-			this.state_updater.managePowerUps();
-			Bomberman.getInstance().kickBombs(game_setup);
-			this.state_updater.slideBombs();
-			repaint();
-			try {
-				Thread.sleep(25);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (this.game_setup.getControls().isPause()) {
+				System.out.println("pausing");
 			}
-		}
+			else if(this.game_setup.isGame_over()) {
+				System.out.println("game over");
+				repaint();
+
+			}
+			else {
+				this.state_updater.game_over();
+				this.state_updater.manageCharacters();
+				Bomberman.getInstance().placeBomb(game_setup);
+				this.state_updater.updateBombTimer();
+				this.state_updater.manageTiles();
+				this.state_updater.manageLasers();
+				this.state_updater.manageProjectiles();
+				this.state_updater.manageTraps();
+				this.state_updater.manageBossProjectiles();
+				this.state_updater.managePowerUps();
+				Bomberman.getInstance().kickBombs(game_setup);
+				this.state_updater.slideBombs();
+				repaint();
+				try {
+					Thread.sleep(25);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			}
+//			Bomberman.getInstance().move(FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());
 	}
 	
 	public static int getPanelWidth() {

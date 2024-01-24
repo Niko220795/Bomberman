@@ -25,7 +25,7 @@ public class ControlsHandler implements KeyListener{
 	private boolean space;
 	private boolean kicks_bomb;
 	private boolean enter;
-	private boolean pausing = true;
+	private boolean pausing = false;
 	
 
 	public ControlsHandler() {
@@ -109,9 +109,9 @@ public class ControlsHandler implements KeyListener{
 				this.enter = true;
 				break;
 				
-//			case KeyEvent.VK_P:
-//				gp.pause = !gp.pause;
-//				break;
+			case KeyEvent.VK_P:
+				pausing = !pausing;
+				break;
 			default:
 			
 		}

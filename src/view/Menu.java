@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,6 +18,7 @@ public class Menu extends JPanel {
 	BufferedImage next_level;
 
 	public Menu() {
+		this.setPreferredSize(new Dimension(768,576));
 		try {
 			sfondo = ImageIO.read(new File("src/resources/menu/bg-menu.png"));
 			game_over = ImageIO.read(new File("src/resources/menu/game_over.png"));

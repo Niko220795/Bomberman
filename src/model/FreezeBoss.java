@@ -18,9 +18,38 @@ public class FreezeBoss extends Walker{
 		super(x, y);
 		this.move_speed = 2;
 		this.boss_projectiles = boss_projectiles;
-		this.health = 2;
+		this.health = 5;
 	}
 
+	
+	@Override
+	public Coordinates[] damageHitBox(int tile_size) {
+		int x1 = getPos_x();
+		int x2 = getPos_x() + tile_size;
+		int x3 = getPos_x() + 2*tile_size;
+		int x4 = getPos_x() + 3*tile_size - 1;
+		int y1 = getPos_y();
+		int y2 = getPos_y() + tile_size;
+		int y3 = getPos_y() + 2*tile_size;
+		int y4 = getPos_y() + 3*tile_size;
+
+		Coordinates[] hit_box = new Coordinates[12];
+		hit_box[0] = new Coordinates(x1,y1);
+		hit_box[1] = new Coordinates(x2,y1);
+		hit_box[2] = new Coordinates(x3,y1);
+		hit_box[3] = new Coordinates(x4,y1);
+		hit_box[4] = new Coordinates(x1,y2);
+		hit_box[5] = new Coordinates(x4,y2);
+		hit_box[6] = new Coordinates(x1,y3);
+		hit_box[7] = new Coordinates(x4,y3);
+		hit_box[8] = new Coordinates(x1,y4);
+		hit_box[9] = new Coordinates(x2,y4);
+		hit_box[10] = new Coordinates(x3,y4);
+		hit_box[11] = new Coordinates(x4,y4);
+		return hit_box;
+
+		
+	}
 
 	@Override
 	public Coordinates[] collisionHitBox(int tile_size) {
@@ -162,22 +191,11 @@ public class FreezeBoss extends Walker{
 		if (has_damaged) {
 			Bomberman.getInstance().damage();					
 		}
-		
-		Bomberman b = Bomberman.getInstance();
-		Coordinates[] b_hit_box = b.collisionHitBox(tile_size);
-//		for (Coordinates c : b_hit_box) {
-//			if (c.i >= hit_box[0].i && c.i <= hit_box[1].i) {
-//				if (c.j >= hit_box[0].j && c.j <= hit_box[3].j) {
-//					if (this.damage_timer <= 0) {
-//						System.out.println("hit");
-//						b.damage();
-//						this.damage_timer = 1000;
-//						
-//					}
-//				}
-//			}
-//		}
-//		System.out.println(this.damage_timer);
+
+		boolean damaged = this.checkDamage(map_structure);
+		if (damaged) {
+			this.damage();
+		}
 		this.damage_timer -= 10;
 		this.setChanged();
 		this.notifyObservers(this.shooting_timer);

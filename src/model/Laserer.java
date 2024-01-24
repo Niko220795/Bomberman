@@ -72,8 +72,6 @@ public class Laserer extends Enemy {
 	public void shootLaser(int tile_size, TileModel[][] map_structure, HashMap<TileModel, LaserUtil> laser_tiles) {
 		int pos_row = this.getPos_y()/tile_size;
 		int pos_col = this.getPos_x()/tile_size;
-		System.out.println("laserer + " + pos_row);
-		System.out.println("laserer + " + pos_col);
 		int i = 1;
 		switch(this.shooting_dir) {
 		case UP:

@@ -72,7 +72,7 @@ public class Main{
 //		MainMenu m = new MainMenu();
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setResizable(false);
+		frame.setResizable(false);
 		frame.setTitle("test");
 		GamePanel gp = new GamePanel();
 		frame.getContentPane().add(gp);

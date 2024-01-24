@@ -41,8 +41,6 @@ public class Renderer {
 public void drawLaser(Graphics g) {
 	var laser_tiles = this.map_entities.getLaser_tiles();
 	for (TileModel t : laser_tiles.keySet()) {
-		System.out.println(t.getMatrix_pos_col());
-		System.out.println(t.getMatrix_pos_row());
 		int x = t.getMatrix_pos_col()*GamePanel.FINAL_TILE_SIZE;
 		int y = t.getMatrix_pos_row()*GamePanel.FINAL_TILE_SIZE;
 		BufferedImage laser;
@@ -105,16 +103,13 @@ public void drawCharacters(Graphics g) {
 			}
 			else if (c instanceof FatBoss) {
 				g.drawImage(sprite, c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
-				g.drawRect(c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2);
 
 			}
 			else if (c instanceof FreezeBoss) {
 				g.drawImage(sprite, c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
-				g.drawRect(c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2);
 			}
 			else {
 				g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
-				g.drawRect(c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2);
 			}
 
 		}

@@ -10,6 +10,7 @@ import model.Projectile;
 import controller.Coordinates;
 //import model.PowerUpModel;
 import model.BombModel;
+import model.Bomberman;
 import model.TileModel;
 import model.TrapModel;
 import model.Character;
@@ -106,7 +107,7 @@ public class StateUpdater {
 				tile.setModel_num(1);
 				boolean has_power_up = tile.containsPowerUp();
 				if (has_power_up) {	
-					int i = this.game_setup.random_generator.nextInt(7,8);
+					int i = this.game_setup.random_generator.nextInt(2,3);
 					PowerUpModel power_up = new PowerUpModel(i, tile.getMatrix_pos_row(), tile.getMatrix_pos_col());
 					this.map_entities.getPower_ups().add(power_up);
 					tile.setPower_up(power_up);
@@ -147,6 +148,12 @@ public class StateUpdater {
             }
         }
     }
+	
+	public void game_over() {
+		if (Bomberman.getInstance().isReallyDead()) {
+			this.game_setup.setGame_over(true);
+		}
+	}
 
 	
 	public void manageCharacters() {

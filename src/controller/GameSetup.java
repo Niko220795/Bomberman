@@ -25,6 +25,7 @@ import view.TrapperView;
 import view.WalkerView;
 import view.ImmobileView;
 import view.LaserView;
+import view.Menu;
 import view.PowerUpView;
 import view.ShooterView;
 import view.CharacterView;
@@ -46,6 +47,22 @@ public class GameSetup {
 	BombView bomb_view;
 	PowerUpView power_up_view;
 	HashMap<Character, EntityView> characterModelsView ;
+	EntityInstantiator entity_instantiator;
+	boolean game_over = false;
+	
+	public boolean isGame_over() {
+		return game_over;
+	}
+
+	public void setGame_over(boolean game_over) {
+		this.game_over = game_over;
+	}
+
+	Menu menu = new Menu();
+	public Menu getMenu() {
+		return menu;
+	}
+
 	public static Random random_generator = new Random();
 	
 	
@@ -55,10 +72,10 @@ public class GameSetup {
 		this.power_up_view = new PowerUpView();
 		this.controls = new ControlsHandler();
 		this.tile_view = new TileView(map_name, 24, ".png");
-		bomberman_view = new BombermanView();
-		bomberman.addObserver(bomberman_view);
+//		bomberman_view = new BombermanView();
+//		bomberman.addObserver(bomberman_view);
 		this.map_entities = new MapEntities();
-		this.initializeCharacterView();
+		this.initializeCharacterView("src/resources/enemies.txt");
 		int[] arr = new int[] {1};
 		int[] arr2 = new int[] {};
 
@@ -79,16 +96,17 @@ public class GameSetup {
 		return characterModelsView;
 	}
 
-	public void initializeCharacterView() {
+	public void initializeCharacterView(String path) {
 		this.characterModelsView = new HashMap<Character,EntityView>();
 		this.characterModelsView.put(Bomberman.getInstance(), new BombermanView());
+		this.entity_instantiator = new EntityInstantiator(path,this);
 //		this.characterModelsView.put(new Walker(144,252), new WalkerView());
 //		this.characterModelsView.put(new Shooter(144,252, this.map_entities.getProjectiles()), new ShooterView());
 //		this.characterModelsView.put(new Trapper(144,252, this.map_entities.getTraps(), this), new TrapperView());
 //		this.characterModelsView.put(new Laserer(144,252, Direction.LEFT, this.map_entities.getLaser_tiles()), new ImmobileView());
 
 //		this.characterModelsView.put(new FatBoss(300,250), new FatBossView());
-		this.characterModelsView.put(new FreezeBoss(300,300,this.map_entities.getBoss_projectiles()), new FreezeBossView());
+//		this.characterModelsView.put(new FreezeBoss(300,300,this.map_entities.getBoss_projectiles()), new FreezeBossView());
 		for (Character c : this.characterModelsView.keySet()) {
 			c.addObserver(this.characterModelsView.get(c));
 		}
