@@ -3,6 +3,8 @@ package model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 public class MapModel {
@@ -10,14 +12,14 @@ public class MapModel {
 	private TileModel[][] mapStructure;
 	
 	//File di configurazione per indicare, insieme alla mappa, quali blocchi devono avere la collision attiva.
-	private int[] collision_config;
-	private int[] destructible_config;
-	private int[] border_config;
+	private HashSet<Integer> terrain_config;
+	private HashSet<Integer> destructible_config;
+	private HashSet<Integer> border_config;
 	
 	
-	public MapModel(String path, int[] collision_config, int[] destructible_config, int[] border_config) {
+	public MapModel(String path, HashSet<Integer> terrain_config, HashSet<Integer> destructible_config, HashSet<Integer> border_config) {
 		
-		this.collision_config = collision_config;
+		this.terrain_config = terrain_config;
 		this.destructible_config = destructible_config;
 		this.border_config = border_config;
 		Stream<String> mapText;
@@ -30,7 +32,7 @@ public class MapModel {
 			this.mapStructure = mapText.map(MapModel::tileMapping).toArray(TileModel[][]::new);
 			this.setTilesCoord();
 			//fa un ulteriore passaggio sulla mapStructure per settare i blocchi con la collision in base al config
-			configureCollision();
+			configureTiles();
 			
 		}
 		catch (Exception e) {
@@ -69,31 +71,46 @@ public class MapModel {
 	 * Funzione per impostare la collisione sulla mapStructure. Scorre su tutti i singoli TileModel della mapStructure e
 	 * se il loro modelNum corrisponde ad uno dei valori nel file di config, attiva la collision su quel Tile
 	 */
-	public void configureCollision() {
+	public void configureTiles() {
 		for (int i = 0; i < mapStructure.length; i++) {
 			for (int j = 0; j < mapStructure[0].length; j++) {
-				
-				for (int c : collision_config) {
-					if (mapStructure[i][j].getModel_num() == c) {
-						mapStructure[i][j].setCollision(false);
-						break;
-					}
+				if (terrain_config.contains(mapStructure[i][j].getModel_num())) {
+					mapStructure[i][j].setCollision(false);
 				}
-				
-				for (int d : destructible_config) {
-					if (mapStructure[i][j].getModel_num() == d) {
-						mapStructure[i][j].setDestructible(false);
-						break;
-					}
+				else {
+					mapStructure[i][j].setCollision(true);
+
 				}
-				
-				for (int b : border_config) {
-					if (mapStructure[i][j].getModel_num() == b) {
-						mapStructure[i][j].setBorder();
-						break;
-					}
+				if (destructible_config.contains(mapStructure[i][j].getModel_num())) {
+					mapStructure[i][j].setDestructible(true);
 				}
-				
+				else {
+					mapStructure[i][j].setDestructible(false);
+				}
+				if (border_config.contains(mapStructure[i][j].getModel_num())) {
+					mapStructure[i][j].setBorder();
+				}
+//				for (int c : collision_config) {
+//					if (mapStructure[i][j].getModel_num() == c) {
+//						mapStructure[i][j].setCollision(false);
+//						break;
+//					}
+//				}
+//				
+//				for (int d : destructible_config) {
+//					if (mapStructure[i][j].getModel_num() == d) {
+//						mapStructure[i][j].setDestructible(false);
+//						break;
+//					}
+//				}
+//				
+//				for (int b : border_config) {
+//					if (mapStructure[i][j].getModel_num() == b) {
+//						mapStructure[i][j].setBorder();
+//						break;
+//					}
+//				}
+//				
 			}
 		}
 	}

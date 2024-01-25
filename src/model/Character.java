@@ -7,7 +7,7 @@ import view.GamePanel;
 public abstract class Character extends Entity{
 	
 
-	private boolean is_actually_dead = false;
+	protected boolean is_actually_dead = false;
 	public int invulnerability = 0;
 	
 	
@@ -29,8 +29,7 @@ public abstract class Character extends Entity{
 
 	
 	public Character() {
-		setPos_x(96);
-		setPos_y(96);
+		
 	}
 	
 

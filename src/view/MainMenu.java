@@ -20,7 +20,7 @@ import model.User;
 public class MainMenu {
 
 	public User[] users = new User[3];
-	public User playing_user = new User("default", 0);
+//	public User playing_user = new User("default", 0);
 	public JButton play;
 	public JButton new_game;
 	public UserButton[] user_buttons = new UserButton[3];
@@ -128,10 +128,10 @@ public class MainMenu {
 //		}
 	}
 	
-	public void loadUsers() {
-	users[0] = new User("nl", 0);
-	users[1] = new User("nl", 1);
-	users[2] = new User("nl", 1);
-}
+//	public void loadUsers() {
+//	users[0] = new User("nl", 0);
+//	users[1] = new User("nl", 1);
+//	users[2] = new User("nl", 1);
+//}
 
 }

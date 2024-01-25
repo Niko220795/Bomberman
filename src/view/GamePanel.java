@@ -14,6 +14,7 @@ import controller.StateUpdater;
 import model.Bomberman;
 import model.MapModel;
 import model.TileModel;
+import model.User;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -35,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true);
 //		this.setLayout(null);
 //		this.fdg = new FinestraDiGioco();
-		this.game_setup = new GameSetup("green_village");
+		this.game_setup = new GameSetup(new User("green_village", 1,1,1));
 		this.state_updater = new StateUpdater(this.game_setup, this.game_setup.getMap_entities());
 		this.renderer = new Renderer(game_setup, state_updater, this.game_setup.getMap_entities());
 		this.addKeyListener(this.game_setup.getControls());
@@ -78,8 +79,13 @@ public class GamePanel extends JPanel implements Runnable{
 				System.out.println("pausing");
 			}
 			else if(this.game_setup.isGame_over()) {
-				System.out.println("game over");
-				repaint();
+				int i = 0;
+				i+=1;
+				if (this.game_setup.getControls().isEnter()) {
+					System.out.println("enter pressed");
+					this.game_setup.resetGame();				}
+				
+//				repaint();
 
 			}
 			else {

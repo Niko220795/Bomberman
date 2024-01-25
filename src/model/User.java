@@ -1,17 +1,22 @@
 package model;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class User {
+public class User implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	public String username;
 	public BufferedImage propic;
-	private int score;
-	public int current_level;
+	public int score;
+	public int level;
+	public int user_number;
 	
-	public User(String name, int level) {
-		this.username = name;
-		this.current_level = level;
+	public User(String s, int i, int level, int number) {
+		this.username = s;
+		this.score = i;
+		this.level = level;
+		this.user_number = number;
 	}
 	
 	public int getScore() {

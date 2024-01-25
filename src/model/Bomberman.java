@@ -28,6 +28,19 @@ public class Bomberman extends Character{
 	private int move_speed_buff_timer = 0;
 
 
+	public void reset() {
+		this.health = 2;
+		this.dead = false;
+		this.is_actually_dead = false;
+		power_up = null;
+		shield = false;
+		ghosting_timer = 0;
+		explosion_limit = 2;
+		bomb_timer = 0;
+		multiple_bombs_power_up_timer = 0;
+		shield_invulnerability = 0;
+		move_speed_buff_timer = 0;
+	}
 	
 	public int getExplosion_limit() {
 		return explosion_limit;

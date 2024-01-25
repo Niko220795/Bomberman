@@ -24,7 +24,7 @@ public class ControlsHandler implements KeyListener{
 	private boolean right;
 	private boolean space;
 	private boolean kicks_bomb;
-	private boolean enter;
+	private volatile boolean enter;
 	private boolean pausing = false;
 	
 
@@ -107,6 +107,7 @@ public class ControlsHandler implements KeyListener{
 				break;
 			case KeyEvent.VK_ENTER:
 				this.enter = true;
+				System.out.println("enter");
 				break;
 				
 			case KeyEvent.VK_P:
