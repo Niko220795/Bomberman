@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
 	Renderer renderer;
 	StateUpdater state_updater;
 	
-	public GamePanel() {
+	public GamePanel(GameSetup game_setup) {
 		System.out.println("lol");
 		this.setPreferredSize(new Dimension((X_TILES*FINAL_TILE_SIZE),(Y_TILES*FINAL_TILE_SIZE)));
 //		this.setBackground(new Color(107, 106, 104));
@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true);
 //		this.setLayout(null);
 //		this.fdg = new FinestraDiGioco();
-		this.game_setup = new GameSetup(new User("green_village", 1,1,1));
+		this.game_setup = game_setup;
 		this.state_updater = new StateUpdater(this.game_setup, this.game_setup.getMap_entities());
 		this.renderer = new Renderer(game_setup, state_updater, this.game_setup.getMap_entities());
 		this.addKeyListener(this.game_setup.getControls());

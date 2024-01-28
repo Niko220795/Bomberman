@@ -11,10 +11,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import controller.NewGameButtonListener;
 import controller.UserSetter;
+import controller.listeners.LoadGameListener;
+import controller.listeners.NewGameListener;
 import model.User;
 
 public class MainMenu {
@@ -35,11 +37,19 @@ public class MainMenu {
 //		window.getContentPane().setLayout(null);
 		
 		JPanel panel = new Menu();
-		JButton play = new JButton("New button");
-		play.setOpaque(false);
-		play.setContentAreaFilled(false);
-		play.setBorderPainted(false);
-		play.setIcon(new ImageIcon("src/resources/menu/btn-play.png"));
+//		JButton play = new JButton("New button");
+//		User user = new User("default",1,1,1);
+//		play.addActionListener(new NewGameListener());
+//		play.setOpaque(false);
+//		play.setContentAreaFilled(false);
+//		play.setBorderPainted(false);
+//		play.setIcon(new ImageIcon("src/resources/menu/btn-play.png"));
+		JTextField username_field = new JTextField("Insert username");
+		username_field.requestFocus();
+		username_field.setBackground(Color.ORANGE);
+		username_field.setBounds(100, 100, 100,30);
+		panel.add(username_field);
+//		JButton play = (new SaveSlotButton(new User("default",1,1,1), 0)).getButton();
 		play.setBounds(500, 450, 150, 50);
 
 		play.setVisible(true);
@@ -93,10 +103,11 @@ public class MainMenu {
 		new_game.setContentAreaFilled(false);
 		new_game.setBorderPainted(false);
 		new_game.setIcon(new ImageIcon("src/resources/menu/btn-newgame.png"));
-		new_game.setVisible(false);
+//		new_game.addActionListener(new NewGameListener());
+		new_game.setVisible(true);
 		panel.add(new_game);
 		this.new_game = new_game;
-		new_game.addActionListener(new NewGameButtonListener(this));
+//		new_game.addActionListener(new NewGameButtonListener(this));
 		new_game.setBounds(450, 350, 250, 50);
 		panel.add(play);
 		play.setBounds(500, 450, 150, 50);

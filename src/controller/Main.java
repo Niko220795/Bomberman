@@ -69,16 +69,16 @@ public class Main{
 //	}
 
 	public static void main(String[] args) {
-//		MainMenu m = new MainMenu();
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setTitle("test");
-		GamePanel gp = new GamePanel();
-		frame.getContentPane().add(gp);
-		frame.pack();
-		frame.setVisible(true);
-		frame.setLocationRelativeTo(null);
+		MainMenu m = new MainMenu();
+//		JFrame frame = new JFrame();
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setResizable(false);
+//		frame.setTitle("test");
+//		GamePanel gp = new GamePanel();
+//		frame.getContentPane().add(gp);
+//		frame.pack();
+//		frame.setVisible(true);
+//		frame.setLocationRelativeTo(null);
 //		m.loadUser();
 //		m.setVisible(true);;
 //		Main main_controller = new Main();

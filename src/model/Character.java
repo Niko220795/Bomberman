@@ -19,6 +19,12 @@ public abstract class Character extends Entity{
 		return this.is_actually_dead;
 	}
 	
+	public void reset() {
+		this.is_actually_dead = false;
+		this.dead = false;
+		this.death_animation_counter = 60;
+	}
+	
 	public void revive() {
 		this.death_animation_counter = 60;
 		this.dead = false;

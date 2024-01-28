@@ -1,0 +1,26 @@
+package view;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+import controller.listeners.LoadGameListener;
+import model.User;
+
+public class PlayButton {
+
+	User user;
+	JButton button;
+	JButton profile_pic;
+	
+	public PlayButton() {
+		button = new JButton();
+		button.setContentAreaFilled(false);
+		button.setBorderPainted(false);
+		button.setIcon(new ImageIcon("src/resources/menu/btn-play.png"));
+//		button.addActionListener(new LoadGameListener(user));
+	}
+	
+	public JButton getPlayButton() {
+		return this.button;
+	}
+}

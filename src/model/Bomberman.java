@@ -29,6 +29,8 @@ public class Bomberman extends Character{
 
 
 	public void reset() {
+		this.death_animation_counter = 60;
+		this.invulnerability = 0;
 		this.health = 2;
 		this.dead = false;
 		this.is_actually_dead = false;

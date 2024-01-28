@@ -99,9 +99,10 @@ public class GameSetup {
 		this.initializeGame(enemies, map_config, level);
 		Bomberman.getInstance().reset();
 		this.game_over = false;
+		this.map_entities.getPower_ups().clear();
 		Bomberman.getInstance().setPos_x(96);
 		Bomberman.getInstance().setPos_y(96);
-	}
+		}
 
 	public PowerUpView getPower_up_view() {
 		return power_up_view;
@@ -120,7 +121,7 @@ public class GameSetup {
 		this.initializeMap(level);
 		this.initializeTileMaps(level);
 		Bomberman.getInstance().reset();
-		MapModel map = new MapModel(map_config, this.terrain_map.get(1),this.destructible_map.get(1),this.border_map.get(1));
+		MapModel map = new MapModel(map_config, this.terrain_map.get(level),this.destructible_map.get(level),this.border_map.get(level));
 		this.map_structure = map.getMapStructure();
 		
 	}
@@ -129,6 +130,9 @@ public class GameSetup {
 		switch(map_id) {
 		case 1:
 			this.tile_view = new TileView("green_village", 24, ".png");
+			break;
+		case 2:
+			this.tile_view = new TileView("blue_castle", 17, ".jpg");
 			break;
 		default:
 
@@ -141,6 +145,12 @@ public class GameSetup {
 			this.terrain_map.put(1, new HashSet<Integer>(Arrays.asList(1)));
 			this.destructible_map.put(1, new HashSet<Integer>(Arrays.asList(20)));
 			this.border_map.put(1, new HashSet<Integer>(Arrays.asList(10)));
+			break;
+		case 2:
+			this.terrain_map.put(2, new HashSet<Integer>(Arrays.asList(1)));
+			this.destructible_map.put(2, new HashSet<Integer>(Arrays.asList(14)));
+			this.border_map.put(2, new HashSet<Integer>(Arrays.asList(10)));
+			break;
 		}
 	}
 	
