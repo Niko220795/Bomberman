@@ -23,8 +23,11 @@ public class NewGameListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		GameWindow game_window = new GameWindow(new User(username,0,1, propic));
-		game_window.getFrame().setVisible(true);
+		System.out.println(this.menu.username_field.getText());
+		if (this.menu.username_field.getText() != "" && !this.menu.username_field.getText().equals("Insert username")) {
+			GameWindow game_window = new GameWindow(menu);
+			game_window.getFrame().setVisible(true);			
+		}
 		
 	}
 

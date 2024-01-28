@@ -9,9 +9,9 @@ public class UsernameListener implements ActionListener {
 	
 	MenuSetup menu;
 	String username;
-	public UsernameListener(MenuSetup menu, String s) {
+	public UsernameListener(MenuSetup menu) {
 		this.menu = menu;
-		this.username = username;
+		this.username = menu.username_field.getText();
 	}
 
 	@Override

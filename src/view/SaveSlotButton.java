@@ -23,7 +23,6 @@ public class SaveSlotButton {
 		button.setFocusPainted(false);
 //		user.setOpaque(false);
 		button.setContentAreaFilled(false);
-		button.addActionListener(new LoadGameListener(user));
 		button.setBorderPainted(false);
 	}
 	
