@@ -11,6 +11,7 @@ import controller.ControlsHandler;
 import controller.GameSetup;
 import controller.Renderer;
 import controller.StateUpdater;
+import controller.listeners.SaveGameListener;
 import model.Bomberman;
 import model.MapModel;
 import model.TileModel;
@@ -27,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
 	GameSetup game_setup;
 	Renderer renderer;
 	StateUpdater state_updater;
+	SaveButton save;
 	
 	public GamePanel(GameSetup game_setup) {
 		System.out.println("lol");
@@ -37,6 +39,7 @@ public class GamePanel extends JPanel implements Runnable{
 //		this.setLayout(null);
 //		this.fdg = new FinestraDiGioco();
 		this.game_setup = game_setup;
+		this.initializeSaveButton();
 		this.state_updater = new StateUpdater(this.game_setup, this.game_setup.getMap_entities());
 		this.renderer = new Renderer(game_setup, state_updater, this.game_setup.getMap_entities());
 		this.addKeyListener(this.game_setup.getControls());
@@ -76,7 +79,9 @@ public class GamePanel extends JPanel implements Runnable{
 	public void run() {
 		while(true) {
 			if (this.game_setup.getControls().isPause()) {
-				System.out.println("pausing");
+				if (this.save.getButton().isVisible() == false) {
+					this.save.getButton().setVisible(true);
+				}
 			}
 			else if(this.game_setup.isGame_over()) {
 				int i = 0;
@@ -89,6 +94,9 @@ public class GamePanel extends JPanel implements Runnable{
 
 			}
 			else {
+				if (this.save.getButton().isVisible() == true) {
+					this.save.getButton().setVisible(false);
+				}
 				this.state_updater.game_over();
 				this.state_updater.manageCharacters();
 				Bomberman.getInstance().placeBomb(game_setup);
@@ -111,6 +119,13 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 			}
 //			Bomberman.getInstance().move(FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());
+	}
+	
+	public void initializeSaveButton() {
+		this.save = new SaveButton(this.game_setup.getSelected_user());
+		this.add(save.getButton());
+		save.getButton().setVisible(false);
+		save.getButton().addActionListener(new SaveGameListener(this.game_setup));
 	}
 	
 	public static int getPanelWidth() {

@@ -55,6 +55,12 @@ public class GameSetup {
 	HashMap<Integer, HashSet<Integer>> terrain_map = new HashMap<Integer, HashSet<Integer>>() ;
 	HashMap<Integer, HashSet<Integer>> destructible_map = new HashMap<Integer, HashSet<Integer>>();
 	HashMap<Integer, HashSet<Integer>> border_map = new HashMap<Integer, HashSet<Integer>>();
+	Menu menu = new Menu();
+	
+	
+	public User getSelected_user() {
+		return selected_user;
+	}
 
 	boolean game_over = false;
 	
@@ -66,7 +72,6 @@ public class GameSetup {
 		this.game_over = game_over;
 	}
 
-	Menu menu = new Menu();
 	public Menu getMenu() {
 		return menu;
 	}

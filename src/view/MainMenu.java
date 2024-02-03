@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controller.UserSetter;
-import controller.listeners.LoadGameListener;
+import controller.listeners.SaveSlotGameListener;
 import controller.listeners.NewGameListener;
 import model.User;
 

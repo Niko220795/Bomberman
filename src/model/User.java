@@ -4,21 +4,24 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	public String username;
-	public JButton propic;
+	public JLabel propic;
 	public int score;
 	public int level;
 	public int user_number;
+	public int user_id;
 	
-	public User(String s, int score, int level, JButton propic) {
+	public User(String s, int score, int level, JLabel propic, int user_id) {
 		this.username = s;
 		this.score = score;
 		this.level = level;
 		this.propic = propic;
+		this.user_id = user_id;
 	}
 	
 	public int getScore() {
@@ -26,6 +29,11 @@ public class User implements Serializable{
 	}
 	public void setScore(int score) {
 		this.score = score;
+	}
+	
+	public void resetUser() {
+		this.score = 0;
+		this.level = 1;
 	}
 	
 

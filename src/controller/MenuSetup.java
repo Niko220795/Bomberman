@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import controller.listeners.IconSetterListener;
 import controller.listeners.LoadGameListener;
+import controller.listeners.SaveSlotGameListener;
 import controller.listeners.NewGameListener;
 import controller.listeners.ShowProfileIconListener;
 import controller.listeners.UsernameListener;
@@ -44,7 +45,7 @@ public class MenuSetup {
 		this.username_field = new JTextField("Insert username");
 		this.setUpUsernameField();
 		this.profile_icons = new ProfileIcons();
-		this.current_user =  new User("Default", 0, 1, this.profile_icons.getIcon(0));
+//		this.current_user =  new User("Default", 0, 1, this.profile_icons.getIcon(0));
 		this.users = new User[3];
 		this.save_slots = new SaveSlotButton[3];
 		this.new_game = (new NewGameButton(this)).getNewGameButton();
@@ -55,7 +56,7 @@ public class MenuSetup {
 		displaySaveSlots(background);
 		displayIcons(background);
 		displayNewLoadGame(background);		
-		displayPlayButton(background);
+		displayPlayLoadButton(background);
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().add(background);
@@ -112,6 +113,7 @@ public class MenuSetup {
 			i+=1;
 		}
 		this.new_game.setVisible(false);
+		this.load_button.setVisible(false);
 		for(int j = 0; j<5; j++) {
 			this.profile_icons.getIcon(j).setVisible(true);
 		}
@@ -124,7 +126,7 @@ public class MenuSetup {
 		for (SaveSlotButton save_slot : this.save_slots) {
 			save_slot.getButton().setBounds(20, 300+80*i, 300, 50);
 			background.add(save_slot.getButton());
-			save_slot.getButton().addActionListener(new LoadGameListener(this));
+			save_slot.getButton().addActionListener(new SaveSlotGameListener(this, save_slot));
 			save_slot.getButton().setVisible(true);
 			i+=1;
 		}
@@ -154,11 +156,15 @@ public class MenuSetup {
 		this.new_game.setVisible(true);
 	}
 	
-	public void displayPlayButton(Menu background) {
+	public void displayPlayLoadButton(Menu background) {
 		this.play_button.setBounds(230, 300, 300, 80);
 		background.add(this.play_button);
 		this.play_button.addActionListener(new NewGameListener(this));
 		this.play_button.setVisible(false);
+		this.load_button.setBounds(400, 400, 300, 80);
+		background.add(this.load_button);
+		this.load_button.addActionListener(new LoadGameListener(this));
+		this.load_button.setVisible(true);
 	}
 	
 	public void initializeSaveSlots() {
@@ -166,7 +172,7 @@ public class MenuSetup {
 		for (int i = 0; i<3; i++) {
 //			this.save_slots[i].setUser(this.users[i]);
 			this.save_slots[i] = new SaveSlotButton(this.users[i],1);
-			System.out.println("initialized user "+i);
+			System.out.println("initialized user "+ this.users[i].user_id);
 
 		}
 	}
@@ -183,8 +189,10 @@ public class MenuSetup {
     		try {	    			
     			FileInputStream fileInputStream = new FileInputStream("src/resources/menu/user" + i + ".txt");
     			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-    			this.users[i] = (User) objectInputStream.readObject();
-    			System.out.println("load user"+i);
+    			User user = (User) objectInputStream.readObject();
+//    			System.out.println("loadUsers userid = "+user.user_id);
+    			this.users[i] = user;
+    			System.out.println("load user "+i +" with id = " + this.users[i].user_id);
     			objectInputStream.close(); 
     		} catch (Exception e) {
     			// TODO Auto-generated catch block

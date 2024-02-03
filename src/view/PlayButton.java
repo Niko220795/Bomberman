@@ -3,7 +3,7 @@ package view;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import controller.listeners.LoadGameListener;
+import controller.listeners.SaveSlotGameListener;
 import model.User;
 
 public class PlayButton {
