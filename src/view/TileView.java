@@ -20,6 +20,7 @@ public class TileView {
 	private String ext;
 	private BufferedImage[] tileSamples;
 	private BufferedImage[] exploding_block = new BufferedImage[6];
+	private BufferedImage exit_tile;
 	
 	public BufferedImage[] getTileSamples() {
 		return tileSamples;
@@ -45,6 +46,7 @@ public class TileView {
 		try {
 			
 			String filename = "src/resources/";
+			this.exit_tile = ImageIO.read(new File(filename + "exit_tile.png"));
 			
 			for (int n = 1; n <= num_of_samples; n++) {
 					tileSamples[n-1] = ImageIO.read(new File(filename + mapName + n + ext));
@@ -62,6 +64,10 @@ public class TileView {
 	}
 	
 	
+	public BufferedImage getExit_tile() {
+		return exit_tile;
+	}
+
 	public void drawExplosion(Graphics g) {
 		
 	}

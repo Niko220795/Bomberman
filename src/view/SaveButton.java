@@ -16,8 +16,8 @@ public class SaveButton {
 	public SaveButton(User user) {
 		this.user = user;
 		this.button = new JButton("SAVE GAME");
-		button.setForeground(Color.ORANGE);
-		button.setFont(new Font("Rockwell Extra Bold", Font.BOLD, 30));
+		button.setForeground(Color.RED);
+		button.setFont(new Font("Rockwell Extra Bold", Font.BOLD, 40));
 		button.setFocusPainted(false);
 //		user.setOpaque(false);
 		button.setContentAreaFilled(false);

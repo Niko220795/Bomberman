@@ -23,6 +23,7 @@ import view.CharacterView;
 import view.EnemyView;
 import view.FinestraDiGioco;
 import view.FreezeBossView;
+import view.GameWindow;
 import view.TileView;
 import view.TrapperView;
 import view.WalkerView;
@@ -30,6 +31,7 @@ import view.ImmobileView;
 import view.LaserView;
 import view.Menu;
 import view.PowerUpView;
+import view.ScoreBoardView;
 import view.ShooterView;
 import view.CharacterView;
 import view.FatBossView;
@@ -39,6 +41,7 @@ import view.FreezeBossView;
 
 public class GameSetup {
 	
+	GameWindow game_window;
 	User selected_user;
 	ControlsHandler controls;
 	FinestraDiGioco fdg;
@@ -55,31 +58,24 @@ public class GameSetup {
 	HashMap<Integer, HashSet<Integer>> terrain_map = new HashMap<Integer, HashSet<Integer>>() ;
 	HashMap<Integer, HashSet<Integer>> destructible_map = new HashMap<Integer, HashSet<Integer>>();
 	HashMap<Integer, HashSet<Integer>> border_map = new HashMap<Integer, HashSet<Integer>>();
+	HashMap<Integer, String> level_to_maps;
+	ScoreBoardView scoreboard;
+	public void setScoreboard(ScoreBoardView scoreboard) {
+		this.scoreboard = scoreboard;
+	}
+
 	Menu menu = new Menu();
-	
-	
-	public User getSelected_user() {
-		return selected_user;
-	}
-
+	HashMap<String, Coordinates> exit_tiles;
+	boolean level_ended = false;
 	boolean game_over = false;
-	
-	public boolean isGame_over() {
-		return game_over;
-	}
-
-	public void setGame_over(boolean game_over) {
-		this.game_over = game_over;
-	}
-
-	public Menu getMenu() {
-		return menu;
-	}
-
 	public static Random random_generator = new Random();
+	int level;
 	
+
 	
 	public GameSetup(User selected_user) {
+		this.initializeLevelToMaps();
+		this.initializeExitTiles();
 		this.selected_user = selected_user;
 		this.laser_view = new LaserView();
 		this.bomb_view = new BombView();
@@ -89,21 +85,54 @@ public class GameSetup {
 //		bomberman_view = new BombermanView();
 //		bomberman.addObserver(bomberman_view);
 		this.map_entities = new MapEntities();
-		int level = selected_user.level;
+		level = selected_user.level;
 		this.resetGame();
 //		MapModel map = new MapModel("src/resources/map.txt", arr,arr2,arr2);
 //		this.map_structure = map.getMapStructure();
 		
 	}
 	
+	public void nextLevel() {
+		
+		this.selected_user.level++;
+		this.level++;
+		
+	}
+	
+	
+	
+	public void initializeLevelToMaps() {
+		this.level_to_maps = new HashMap<Integer, String>();
+		level_to_maps.put(1, "green_village");
+		level_to_maps.put(2, "blue_castle");
+	}
+	public void initializeExitTiles() {
+		this.exit_tiles = new HashMap<String, Coordinates>();
+		this.exit_tiles.put("green_village", new Coordinates(2,1));
+		this.exit_tiles.put("blue_castle", new Coordinates(4,3));
+
+	}
+	
+	public Coordinates getExit_tiles() {
+		return exit_tiles.get(this.level_to_maps.get(this.level));
+	}
+
 	public void resetGame() {
-		int level = selected_user.level;
-		String map_config = "src/resources/map" + level +".txt";
-		String enemies = "src/resources/enemies" + level +".txt";
+		System.out.println("reset game");
+		if (this.level_ended == true) {
+			System.out.println("old level = "+ this.level);
+			this.nextLevel();
+			this.level_ended = false;
+			System.out.println("new level = "+ this.level);
+
+		}
+		String map_config = "src/resources/map" + this.level +".txt";
+		String enemies = "src/resources/enemies" + this.level +".txt";
 
 		this.initializeGame(enemies, map_config, level);
 		Bomberman.getInstance().reset();
 		this.game_over = false;
+		this.map_entities.getPlaced_bombs().clear();
 		this.map_entities.getPower_ups().clear();
 		Bomberman.getInstance().setPos_x(96);
 		Bomberman.getInstance().setPos_y(96);
@@ -152,7 +181,7 @@ public class GameSetup {
 			this.border_map.put(1, new HashSet<Integer>(Arrays.asList(10)));
 			break;
 		case 2:
-			this.terrain_map.put(2, new HashSet<Integer>(Arrays.asList(1)));
+			this.terrain_map.put(2, new HashSet<Integer>(Arrays.asList(1,8)));
 			this.destructible_map.put(2, new HashSet<Integer>(Arrays.asList(14)));
 			this.border_map.put(2, new HashSet<Integer>(Arrays.asList(10)));
 			break;
@@ -207,4 +236,29 @@ public class GameSetup {
 	public TileView getTile_view() {
 		return tile_view;
 	}
+
+	public boolean isLevel_ended() {
+		return level_ended;
+	}
+
+	public void setLevel_ended(boolean level_ended) {
+		this.level_ended = level_ended;
+	}
+
+	public User getSelected_user() {
+		return selected_user;
+	}
+
+	public boolean isGame_over() {
+		return game_over;
+	}
+
+	public void setGame_over(boolean game_over) {
+		this.game_over = game_over;
+	}
+
+	public Menu getMenu() {
+		return menu;
+	}
+
 }

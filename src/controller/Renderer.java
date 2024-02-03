@@ -130,7 +130,13 @@ public void drawTile(Graphics g, TileModel[][] mapStructure) {
 					g.drawImage(game_setup.getTile_view().getExploding_block()[5-(tile.destruction_counter/10)%6], j*tile_width, k*tile_width, tile_width, tile_width, null);
 				}
 				else {
-					g.drawImage(game_setup.getTile_view().getTileSamples()[tile_num-1], j*tile_width, k*tile_width, tile_width, tile_width, null);					
+					if(tile.isExit()) {
+						g.drawImage(game_setup.getTile_view().getExit_tile(), j*tile_width, k*tile_width, tile_width, tile_width, null);					
+
+					}
+					else {
+						g.drawImage(game_setup.getTile_view().getTileSamples()[tile_num-1], j*tile_width, k*tile_width, tile_width, tile_width, null);											
+					}
 				}
 			}
 		}
@@ -142,6 +148,8 @@ public void drawTile(Graphics g, TileModel[][] mapStructure) {
 		HashMap<BombModel, HashSet<TileModel>> placed_bombs = this.map_entities.getPlaced_bombs();
 		int b_tile_col = b.getPos_x()/GamePanel.FINAL_TILE_SIZE;
 		int b_tile_row = b.getPos_y()/GamePanel.FINAL_TILE_SIZE;
+		map_structure[b_tile_row][b_tile_col].setExploding(true);
+		placed_bombs.get(b).add(map_structure[b_tile_row][b_tile_col]);
 		if (!b.processed_explosion) {
 			b.setExplosionLimit(Bomberman.getInstance());
 			game_setup.getMap_structure()[b_tile_row][b_tile_col].setPlacedBomb(null);

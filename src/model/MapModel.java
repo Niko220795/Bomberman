@@ -74,6 +74,8 @@ public class MapModel {
 	public void configureTiles() {
 		for (int i = 0; i < mapStructure.length; i++) {
 			for (int j = 0; j < mapStructure[0].length; j++) {
+				
+
 				if (terrain_config.contains(mapStructure[i][j].getModel_num())) {
 					mapStructure[i][j].setCollision(false);
 				}

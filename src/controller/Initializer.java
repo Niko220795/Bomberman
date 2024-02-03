@@ -25,7 +25,7 @@ public class Initializer {
 				button.setFocusPainted(false);
 				JLabel label = new JLabel();
 				label.setIcon(button.getIcon());
-				User default_user = new User("-- EMPTY SLOT --", 0, 2, label,i);
+				User default_user = new User("-- EMPTY SLOT --", 0, 1, label,i);
 				System.out.println("initializer userid =" + default_user.user_id);
 				FileOutputStream fileOutputStream = new FileOutputStream("src/resources/menu/user"+i+".txt");
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);

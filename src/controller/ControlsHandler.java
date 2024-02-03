@@ -112,6 +112,9 @@ public class ControlsHandler implements KeyListener{
 				
 			case KeyEvent.VK_P:
 				pausing = !pausing;
+				System.out.println("p pressed");
+				System.out.println("pausing is" + pausing);
+
 				break;
 			default:
 			

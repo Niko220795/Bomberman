@@ -6,7 +6,7 @@ import controller.GameSetup;
 public class TileModel {
 	
 
-
+	private boolean is_exit = false;
 	private boolean exploding = false;
 	private Random r = new Random();
 	private int matrix_pos_row;
@@ -103,6 +103,14 @@ public class TileModel {
 	
 	public void setPower_up(PowerUpModel power_up) {
 		this.power_up = power_up;
+	}
+
+	public boolean isExit() {
+		return is_exit;
+	}
+
+	public void setExit(boolean is_exit) {
+		this.is_exit = is_exit;
 	}
 
 	public void setExploding(boolean exploding) {

@@ -1,11 +1,13 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import controller.ControlsHandler;
 import controller.GameSetup;
@@ -57,6 +59,9 @@ public class GamePanel extends JPanel implements Runnable{
 		if (this.game_setup.isGame_over()) {
 			g.drawImage(this.game_setup.getMenu().game_over, 0, 0, 768, 576, null);
 		}
+		else if (this.game_setup.isLevel_ended()) {
+			g.drawImage(this.game_setup.getMenu().game_over, 0, 0, 768, 576, null);
+		}
 		else {
 			
 			this.renderer.drawTile(g, this.game_setup.getMap_structure());
@@ -79,13 +84,18 @@ public class GamePanel extends JPanel implements Runnable{
 	public void run() {
 		while(true) {
 			if (this.game_setup.getControls().isPause()) {
-				if (this.save.getButton().isVisible() == false) {
-					this.save.getButton().setVisible(true);
-				}
+				SwingUtilities.invokeLater(new Runnable() {
+				    public void run() {
+				    	if (save.getButton().isVisible() == false) {
+				    		save.getButton().setVisible(true);
+				    	}
+				    }
+				  });
+//				System.out.println("pausing");
 			}
 			else if(this.game_setup.isGame_over()) {
-				int i = 0;
-				i+=1;
+//				int i = 0;
+//				i+=1;
 				if (this.game_setup.getControls().isEnter()) {
 					System.out.println("enter pressed");
 					this.game_setup.resetGame();				}
@@ -93,11 +103,28 @@ public class GamePanel extends JPanel implements Runnable{
 //				repaint();
 
 			}
-			else {
-				if (this.save.getButton().isVisible() == true) {
-					this.save.getButton().setVisible(false);
+			else if(this.game_setup.isLevel_ended()) {
+				int i = 0;
+				i+=1;
+				if (this.game_setup.getControls().isEnter()) {
+					System.out.println("next level");
+					this.game_setup.resetGame();
 				}
+				
+//				repaint();
+
+			}
+			else {
+				SwingUtilities.invokeLater(new Runnable() {
+				    public void run() {
+				    	if (save.getButton().isVisible() == true) {
+				    		save.getButton().setVisible(false);
+				    	}
+				    }
+				  });
+//				System.out.println("unpause");
 				this.state_updater.game_over();
+				this.state_updater.next_level();
 				this.state_updater.manageCharacters();
 				Bomberman.getInstance().placeBomb(game_setup);
 				this.state_updater.updateBombTimer();
@@ -121,8 +148,11 @@ public class GamePanel extends JPanel implements Runnable{
 //			Bomberman.getInstance().move(FINAL_TILE_SIZE, this.game_setup.getMap_structure(), this.game_setup.getControls());
 	}
 	
+
 	public void initializeSaveButton() {
 		this.save = new SaveButton(this.game_setup.getSelected_user());
+		this.save.getButton().setFocusable(false);
+//		this.add(save.getButton(), BorderLayout.EAST);
 		this.add(save.getButton());
 		save.getButton().setVisible(false);
 		save.getButton().addActionListener(new SaveGameListener(this.game_setup));

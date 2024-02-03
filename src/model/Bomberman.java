@@ -232,6 +232,7 @@ public class Bomberman extends Character{
 				if (damaged) {
 					this.damage();
 				}
+				
 				this.notifyObservers(this.getDir());
 				this.clearChanged();
 			}
@@ -398,6 +399,19 @@ public class Bomberman extends Character{
 		
 	}
 
+	
+	public boolean checkExit(TileModel[][] map_structure) {
+		Coordinates[] hitbox = this.collisionHitBox(GamePanel.FINAL_TILE_SIZE);
+
+		for (Coordinates c : hitbox) {
+			int row = c.j/GamePanel.FINAL_TILE_SIZE;
+			int col = c.i/GamePanel.FINAL_TILE_SIZE;
+			if (map_structure[row][col].isExit()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 	@Override

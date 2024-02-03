@@ -38,6 +38,7 @@ public class MenuSetup {
 	public String username = "";
 	public User current_user;
 	
+	
 	public MenuSetup() {
 		this.play_button = (new PlayButton()).getPlayButton();
 		this.load_button = (new PlayButton()).getPlayButton();

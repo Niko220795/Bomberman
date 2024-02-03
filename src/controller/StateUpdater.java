@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.swing.SwingUtilities;
+
 import model.BossProjectile;
 import model.Projectile;
 import controller.Coordinates;
@@ -104,6 +106,13 @@ public class StateUpdater {
 	    while (iterator.hasNext()) {
 	        TileModel tile = iterator.next();
 	        if (tile.destruction_counter == 0){
+	        	int tile_row = tile.getMatrix_pos_row();
+	        	int tile_col = tile.getMatrix_pos_col();
+	        	Coordinates exit_tile = this.game_setup.getExit_tiles();
+	        	if (tile_row == exit_tile.j && tile_col == exit_tile.i) {
+	        		System.out.println("manageTiles :");
+	        		tile.setExit(true);
+	        	}
 				tile.setModel_num(1);
 				boolean has_power_up = tile.containsPowerUp();
 				if (has_power_up) {	
@@ -149,6 +158,12 @@ public class StateUpdater {
         }
     }
 	
+	public void next_level() {
+		if (Bomberman.getInstance().checkExit(this.game_setup.getMap_structure())) {
+			this.game_setup.setLevel_ended(true);
+		}
+	}
+	
 	public void game_over() {
 		if (Bomberman.getInstance().isReallyDead()) {
 			this.game_setup.setGame_over(true);
@@ -168,6 +183,28 @@ public class StateUpdater {
 				 */
 				if (can_disappear) {
 					c.setReallyDead();
+					if (c instanceof Bomberman) {
+						SwingUtilities.invokeLater(new Runnable() {
+						    public void run() {
+						    	if (game_setup.selected_user.score >= 2000) {
+						    		game_setup.selected_user.score-=2000;						    		
+						    	}
+						    	else {
+						    		game_setup.selected_user.score = 0;
+						    	}
+						    	game_setup.scoreboard.update();
+						    }
+						  });
+					}
+					else {
+						SwingUtilities.invokeLater(new Runnable() {
+						    public void run() {
+						    	game_setup.selected_user.score+=500;
+						    	game_setup.scoreboard.update();
+						    }
+						  });
+					}
+					
 					iterator.remove();
 				}
 			}

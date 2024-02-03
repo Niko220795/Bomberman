@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import controller.GameSetup;
 import controller.MenuSetup;
+import controller.listeners.SaveGameListener;
 import model.User;
 
 public class GameWindow{
@@ -15,6 +16,7 @@ public class GameWindow{
 	ScoreBoardView scoreboard;
 	User current_user;
 	GameSetup game_setup;
+	SaveButton save;
 	public GameWindow(MenuSetup menu) {
 		/*
 		 * need to initialize user
@@ -24,14 +26,25 @@ public class GameWindow{
 		this.frame = new JFrame();
 		this.game_panel = new GamePanel(game_setup);
 		this.scoreboard = new ScoreBoardView(menu);
+		this.game_setup.setScoreboard(scoreboard);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setTitle("test");
+//		this.initializeSaveButton();
 		frame.add(game_panel, BorderLayout.SOUTH);
 		frame.add(scoreboard.getScoreboard(), BorderLayout.NORTH);
 		frame.pack();
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+	}
+	
+	public void initializeSaveButton() {
+		this.save = new SaveButton(this.game_setup.getSelected_user());
+		this.save.getButton().setFocusable(false);
+		this.getFrame().add(save.getButton(), BorderLayout.EAST);
+//		this.add(save.getButton());
+//		save.getButton().setVisible(false);
+		save.getButton().addActionListener(new SaveGameListener(this.game_setup));
 	}
 	
 	public JFrame getFrame() {
