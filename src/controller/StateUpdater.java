@@ -114,9 +114,11 @@ public class StateUpdater {
 	        		tile.setExit(true);
 	        	}
 				tile.setModel_num(1);
+				this.game_setup.selected_user.score += 200;
+				this.game_setup.scoreboard.update();
 				boolean has_power_up = tile.containsPowerUp();
 				if (has_power_up) {	
-					int i = this.game_setup.random_generator.nextInt(2,3);
+					int i = this.game_setup.random_generator.nextInt(8,9);
 					PowerUpModel power_up = new PowerUpModel(i, tile.getMatrix_pos_row(), tile.getMatrix_pos_col());
 					this.map_entities.getPower_ups().add(power_up);
 					tile.setPower_up(power_up);
@@ -141,6 +143,18 @@ public class StateUpdater {
 			}
 		}
 	}
+	
+	public void checkBonusScore() {
+		if (Bomberman.getInstance().hasBonusScore()) {
+			SwingUtilities.invokeLater(new Runnable() {
+			    public void run() {
+			    	game_setup.selected_user.score+=3000;
+			    	game_setup.scoreboard.update();
+			    }
+			  });
+			Bomberman.getInstance().resetBonusScore();
+		}
+	}
 
 	public void updateBombTimer() {
         // Aggiorna il timer di ogni bomba attiva
@@ -158,9 +172,31 @@ public class StateUpdater {
         }
     }
 	
+	public void manageRemoteBomb() {
+        for (Iterator<BombModel> iterator = game_setup.getMap_entities().getRemote_controlled_bomb().keySet().iterator(); iterator.hasNext();) {
+        	BombModel bomba = iterator.next();
+        	if (!bomba.hasExploded() && this.game_setup.getRemote_bomb_listener().isExploded()) {
+        		System.out.println("manageRemoteBomb detonating");
+        		bomba.explode();
+        	}
+        	else if (bomba.hasExploded()) {
+        		bomba.decreaseRemoteExplosionDuration();
+        	}
+        	if (bomba.hasExpired()) {
+        		for (TileModel t : this.map_entities.getRemote_controlled_bomb().get(bomba)) {
+        			t.setExploding(false);
+        		}
+        		iterator.remove();
+        	}	
+        }
+	}
+	
 	public void next_level() {
 		if (Bomberman.getInstance().checkExit(this.game_setup.getMap_structure())) {
 			this.game_setup.setLevel_ended(true);
+			if (!game_setup.endgame_sound_played) {
+				AudioManager.getInstance().play(8);
+			}
 		}
 	}
 	

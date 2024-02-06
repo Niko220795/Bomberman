@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
+import controller.AudioManager;
+import controller.listeners.ControlsHandler;
+import controller.listeners.RemoteBombListener;
 import view.EntityView;
 import model.Bomberman;
 import model.Character;
@@ -44,6 +47,7 @@ public class GameSetup {
 	GameWindow game_window;
 	User selected_user;
 	ControlsHandler controls;
+	RemoteBombListener remote_bomb_listener;
 	FinestraDiGioco fdg;
 	TileModel[][] map_structure;
 	BombermanView bomberman_view;
@@ -60,6 +64,13 @@ public class GameSetup {
 	HashMap<Integer, HashSet<Integer>> border_map = new HashMap<Integer, HashSet<Integer>>();
 	HashMap<Integer, String> level_to_maps;
 	ScoreBoardView scoreboard;
+	public boolean endgame_sound_played = false;
+//	AudioManager audio_samples = new AudioManager();
+
+//	public AudioManager getAudio_samples() {
+//		return audio_samples;
+//	}
+
 	public void setScoreboard(ScoreBoardView scoreboard) {
 		this.scoreboard = scoreboard;
 	}
@@ -81,6 +92,7 @@ public class GameSetup {
 		this.bomb_view = new BombView();
 		this.power_up_view = new PowerUpView();
 		this.controls = new ControlsHandler();
+		this.remote_bomb_listener = new RemoteBombListener();
 //		this.tile_view = new TileView(map_name, 24, ".png");
 //		bomberman_view = new BombermanView();
 //		bomberman.addObserver(bomberman_view);
@@ -92,6 +104,10 @@ public class GameSetup {
 		
 	}
 	
+	public RemoteBombListener getRemote_bomb_listener() {
+		return remote_bomb_listener;
+	}
+
 	public void nextLevel() {
 		
 		this.selected_user.level++;

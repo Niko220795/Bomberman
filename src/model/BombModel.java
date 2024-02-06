@@ -2,6 +2,7 @@ package model;
 import java.util.HashSet;
 import java.util.Observable;
 
+import controller.AudioManager;
 import view.GamePanel;
 
 public class BombModel extends Entity {
@@ -21,6 +22,7 @@ public class BombModel extends Entity {
 	public int explosionAnimationCounter = 0;
 	private Direction slide_dir;
 	private boolean can_slide = false;
+	private int remote_explosion_duration = 30;
 	
 //	private int pos_x;
 //	private int pos_y;
@@ -57,6 +59,20 @@ public class BombModel extends Entity {
 		else animationCounter++;
 	}
 	
+
+	public void decreaseRemoteExplosionDuration() {
+		if (this.remote_explosion_duration > 0){
+			this.remote_explosion_duration -= 1;
+		}
+		else {
+			this.hasExpired = true;
+		}
+	}
+	
+	public boolean remoteExplosionExpired() {
+		return this.remote_explosion_duration == 0;
+	}
+	
 	public void fireFuse(int tile_size) {
 		 
         if (fuse == 30) {
@@ -66,6 +82,7 @@ public class BombModel extends Entity {
 //        		return;
 //        	}
             explode(); // Facciamo esplodere la bomba quando il timer raggiunge zero
+            AudioManager.getInstance().play(2);
         }
         if (fuse == 0) {
         	hasExpired = true;

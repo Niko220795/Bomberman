@@ -1,7 +1,7 @@
 package model;
 
-import controller.ControlsHandler;
 import controller.Coordinates;
+import controller.listeners.ControlsHandler;
 import view.GamePanel;
 
 public abstract class Character extends Entity{

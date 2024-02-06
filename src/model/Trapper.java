@@ -2,9 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
-import controller.ControlsHandler;
 import controller.Coordinates;
 import controller.GameSetup;
+import controller.listeners.ControlsHandler;
 
 
 public class Trapper extends Walker{

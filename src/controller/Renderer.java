@@ -141,11 +141,11 @@ public void drawTile(Graphics g, TileModel[][] mapStructure) {
 			}
 		}
 	}
-	public void drawBombExplosion(Graphics g, BombModel b) {
+	public void drawBombExplosion(Graphics g, BombModel b, HashMap<BombModel, HashSet<TileModel>> placed_bombs) {
 		TileModel[][] map_structure = this.game_setup.getMap_structure();
 		ArrayList<TileModel> tiles_to_update = this.state_updater.getTiles_to_update();
 		BombView bombView = this.game_setup.getBomb_view();
-		HashMap<BombModel, HashSet<TileModel>> placed_bombs = this.map_entities.getPlaced_bombs();
+//		HashMap<BombModel, HashSet<TileModel>> placed_bombs = this.map_entities.getPlaced_bombs();
 		int b_tile_col = b.getPos_x()/GamePanel.FINAL_TILE_SIZE;
 		int b_tile_row = b.getPos_y()/GamePanel.FINAL_TILE_SIZE;
 		map_structure[b_tile_row][b_tile_col].setExploding(true);
@@ -300,7 +300,30 @@ public void drawTile(Graphics g, TileModel[][] mapStructure) {
 			//Disegna l'esplosione di ogni bomba, disegnando prima tutta la parte superiore, poi a destra, giù e infine a sinistra. Il disegno dell'esplosione
 			//si interrompe non appena si incontra un tile con collision attiva.
 			if (b.hasExploded()) {
-				this.drawBombExplosion(g, b);
+				this.drawBombExplosion(g, b, this.game_setup.getMap_entities().getPlaced_bombs());
+			}
+
+			else {
+				BufferedImage bombSprite = game_setup.getBomb_view().bombAnimations[(b.animationCounter/2)%3];
+				g.drawImage(bombSprite, b.getPos_x(), b.getPos_y(), GamePanel.FINAL_TILE_SIZE, GamePanel.FINAL_TILE_SIZE, null);
+
+			}
+
+			b.explosionAnimationCounter++;
+		}
+		for (BombModel b : game_setup.getMap_entities().getRemote_controlled_bomb().keySet()) {
+			
+			
+			
+			int b_tile_col = b.getPos_x()/GamePanel.FINAL_TILE_SIZE;
+			int b_tile_row = b.getPos_y()/GamePanel.FINAL_TILE_SIZE;
+			
+			
+			
+			//Disegna l'esplosione di ogni bomba, disegnando prima tutta la parte superiore, poi a destra, giù e infine a sinistra. Il disegno dell'esplosione
+			//si interrompe non appena si incontra un tile con collision attiva.
+			if (b.hasExploded()) {
+				this.drawBombExplosion(g, b, this.game_setup.getMap_entities().getRemote_controlled_bomb());
 			}
 
 			else {

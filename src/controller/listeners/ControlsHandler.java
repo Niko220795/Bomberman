@@ -1,4 +1,4 @@
-package controller;
+package controller.listeners;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

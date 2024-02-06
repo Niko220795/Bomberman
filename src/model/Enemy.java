@@ -4,8 +4,9 @@ package model;
 
 import java.util.Random;
 
-import controller.ControlsHandler;
+import controller.AudioManager;
 import controller.Coordinates;
+import controller.listeners.ControlsHandler;
 import view.GamePanel;
 
 
@@ -147,8 +148,41 @@ public abstract class Enemy extends Character {
 	 * Funzione che cambia direzione in modo (quasi) casuale.
 	 */
 	
+	@Override
+	public void damage() {
+		super.damage();
+		if (this.dead) {
+			AudioManager.getInstance().play(6);
+		}
+	}
 
 
+	@Override
+	
+	public boolean checkCollision(Coordinates[] hit_box, Direction dir, TileModel[][] map_structure, int tile_size) {
+		boolean super_collision = super.checkCollision(hit_box, dir, map_structure, tile_size);
+		boolean canPass3 = false;
+		switch(dir) {
+		case UP:
+			canPass3 = map_structure[(hit_box[0].j-this.getMoveSpeed())/tile_size][hit_box[0].i/tile_size].getPlacedBomb() == null;
+			break;
+		case RIGHT:
+			canPass3 = map_structure[hit_box[1].j/tile_size][(hit_box[1].i+this.getMoveSpeed())/tile_size].getPlacedBomb() == null;
+			break;
+		case DOWN:
+			canPass3 = map_structure[(hit_box[2].j+this.getMoveSpeed())/tile_size][hit_box[2].i/tile_size].getPlacedBomb() == null;
+			break;
+		case LEFT:
+			canPass3 = map_structure[hit_box[3].j/tile_size][(hit_box[3].i-this.getMoveSpeed())/tile_size].getPlacedBomb() == null;
+			break;
+		default:
+		}
+		
+		if (canPass3 && !super_collision) {
+			return false;
+		}
+		else return true;
+	}
 	
 	public void move() {
 //		if(this.getPos_x()%GamePanel.FINAL_TILE_SIZE == 0 && this.getPos_y()%GamePanel.FINAL_TILE_SIZE == 0) {

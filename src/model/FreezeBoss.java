@@ -3,8 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import controller.ControlsHandler;
 import controller.Coordinates;
+import controller.listeners.ControlsHandler;
 import view.GamePanel;
 
 public class FreezeBoss extends Walker{

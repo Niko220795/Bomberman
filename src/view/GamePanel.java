@@ -9,10 +9,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import controller.ControlsHandler;
+import controller.AudioManager;
 import controller.GameSetup;
 import controller.Renderer;
 import controller.StateUpdater;
+import controller.listeners.ControlsHandler;
 import controller.listeners.SaveGameListener;
 import model.Bomberman;
 import model.MapModel;
@@ -45,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.state_updater = new StateUpdater(this.game_setup, this.game_setup.getMap_entities());
 		this.renderer = new Renderer(game_setup, state_updater, this.game_setup.getMap_entities());
 		this.addKeyListener(this.game_setup.getControls());
+		this.addMouseListener(this.game_setup.getRemote_bomb_listener());
 		this.setFocusable(true);
 //		Thread t = new Thread(this);
 //		t.start();
@@ -56,11 +58,18 @@ public class GamePanel extends JPanel implements Runnable{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		var clip = AudioManager.getInstance().clips.get(8);
 		if (this.game_setup.isGame_over()) {
-			g.drawImage(this.game_setup.getMenu().game_over, 0, 0, 768, 576, null);
+			
+			g.drawImage(this.game_setup.getMenu().game_over, 0, 0, 768, 576, null);				
+			
 		}
-		else if (this.game_setup.isLevel_ended()) {
+		else if (this.game_setup.isLevel_ended() && !clip.isRunning()) {
+			
+
 			g.drawImage(this.game_setup.getMenu().game_over, 0, 0, 768, 576, null);
+
+			
 		}
 		else {
 			
@@ -98,17 +107,23 @@ public class GamePanel extends JPanel implements Runnable{
 //				i+=1;
 				if (this.game_setup.getControls().isEnter()) {
 					System.out.println("enter pressed");
-					this.game_setup.resetGame();				}
+					this.game_setup.resetGame();				
+					}
 				
-//				repaint();
+				
 
 			}
 			else if(this.game_setup.isLevel_ended()) {
 				int i = 0;
 				i+=1;
-				if (this.game_setup.getControls().isEnter()) {
+				var clip = AudioManager.getInstance().clips.get(8);
+				while(clip.isRunning()) {
+					repaint();
+				}
+				if (this.game_setup.getControls().isEnter() && !clip.isRunning()) {
 					System.out.println("next level");
 					this.game_setup.resetGame();
+					game_setup.endgame_sound_played = false;
 				}
 				
 //				repaint();
@@ -127,7 +142,9 @@ public class GamePanel extends JPanel implements Runnable{
 				this.state_updater.next_level();
 				this.state_updater.manageCharacters();
 				Bomberman.getInstance().placeBomb(game_setup);
+				Bomberman.getInstance().placeRemoteBomb(game_setup);
 				this.state_updater.updateBombTimer();
+				this.state_updater.manageRemoteBomb();
 				this.state_updater.manageTiles();
 				this.state_updater.manageLasers();
 				this.state_updater.manageProjectiles();
@@ -136,6 +153,7 @@ public class GamePanel extends JPanel implements Runnable{
 				this.state_updater.managePowerUps();
 				Bomberman.getInstance().kickBombs(game_setup);
 				this.state_updater.slideBombs();
+				this.state_updater.checkBonusScore();
 				repaint();
 				try {
 					Thread.sleep(25);

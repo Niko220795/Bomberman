@@ -1,8 +1,8 @@
 package model;
 
 import controller.Coordinates;
+import controller.listeners.ControlsHandler;
 import view.GamePanel;
-import controller.ControlsHandler;
 
 public class Walker extends Enemy{
 	

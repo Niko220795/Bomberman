@@ -10,10 +10,11 @@ import model.BombModel;
 import model.Bomberman;
 //import model.PowerUpModel;
 import model.TileModel;
-import controller.ControlsHandler;
+import controller.AudioManager;
 import controller.Coordinates;
 import controller.GameSetup;
 import controller.MapEntities;
+import controller.listeners.ControlsHandler;
 
 public class Bomberman extends Character{
 	//Inizio Singleton
@@ -24,9 +25,12 @@ public class Bomberman extends Character{
 	private int explosion_limit = 2;
 	private int bomb_timer = 0;
 	private int multiple_bombs_power_up_timer = 0;
+	private int remote_bomb_power_up_timer = 0;
+	private GameSetup game_setup;
 	private int shield_invulnerability = 0;
 	private int move_speed_buff_timer = 0;
-
+	private boolean bonus_score = false;
+	
 
 	public void reset() {
 		this.death_animation_counter = 60;
@@ -153,6 +157,9 @@ public class Bomberman extends Character{
 		else {
 			if (this.shield_invulnerability == 0) {
 				super.damage();				
+				if (this.dead) {
+					AudioManager.getInstance().play(5);
+				}
 			}
 		}
 	}
@@ -173,6 +180,10 @@ public class Bomberman extends Character{
 				else {
 					this.move_speed = 4;
 				}
+				if (getGhosting_timer() > 0) {
+					decreaseGhosting_timer();
+				
+				}
 				Coordinates[] hit_box = this.collisionHitBox(tile_size);
 //				PowerUpModel power_up = this.getPower_up();
 				boolean needs_to_ghost = false;
@@ -188,10 +199,10 @@ public class Bomberman extends Character{
 				if (power_up != null) {
 					ghosting = power_up.getId() == 3 && this.ghosting_timer > 0;
 				}
-				if (getGhosting_timer() > 0) {
-					decreaseGhosting_timer();
-				
-				}
+//				if (getGhosting_timer() > 0) {
+//					decreaseGhosting_timer();
+//				
+//				}
 				if (controls.isUp() == true && 	getPos_y()-Bomberman.getInstance().getMoveSpeed() >= 0) {
 					boolean canMove = !checkCollision(hit_box, Direction.UP, map_structure, tile_size);
 					if (canMove || ghosting || needs_to_ghost) {
@@ -246,6 +257,7 @@ public class Bomberman extends Character{
 			int col = c.i/GamePanel.FINAL_TILE_SIZE;
 			TileModel tile = map_structure[row][col];
 			if (tile.getPowerUp() != null) {
+				AudioManager.getInstance().play(7);
 				PowerUpModel power_up = tile.getPowerUp();
 				this.setPower_up(power_up);
 				tile.removePowerUp();
@@ -260,17 +272,54 @@ public class Bomberman extends Character{
 				case 4:
 					this.setShield();
 					break;
+				case 5:
+					this.bonus_score = true;
+					break;
 				case 6:
 					this.explosion_limit+=1;
 					break;
 				case 7:
 					this.move_speed_buff_timer = 300;
 					break;
+				case 8:
+					this.remote_bomb_power_up_timer = 300;
+					break;
+				default:
 				}
 			}
 		}
 	}
 	
+	public boolean hasBonusScore() {
+		return bonus_score;
+	}
+	
+	public void resetBonusScore() {
+		this.bonus_score = false;
+	}
+	
+	public void placeRemoteBomb(GameSetup game_setup) {
+		if (game_setup.getMap_entities().getRemote_controlled_bomb().size() == 0) {
+			int b_center_x = this.getPos_x() + GamePanel.FINAL_TILE_SIZE/2;
+			int b_center_y = this.getPos_y() + GamePanel.FINAL_TILE_SIZE/2;
+			int bomb_aligned_x = b_center_x - b_center_x%GamePanel.FINAL_TILE_SIZE;
+			int bomb_aligned_y = b_center_y - b_center_y%GamePanel.FINAL_TILE_SIZE;
+			int bomb_tile_col = bomb_aligned_x/GamePanel.FINAL_TILE_SIZE;
+			int bomb_tile_row = bomb_aligned_y/GamePanel.FINAL_TILE_SIZE;
+			if (game_setup.getRemote_bomb_listener().isPlaced()) {
+				System.out.println("placeRemoteBomb");
+				if ((power_up != null && power_up.getId() == 8) && this.remote_bomb_power_up_timer > 0){
+					
+					BombModel placedBomb = new BombModel(bomb_aligned_x, bomb_aligned_y);
+					game_setup.getMap_entities().addRemoteBomb(placedBomb);
+					game_setup.getMap_structure()[bomb_tile_row][bomb_tile_col].setPlacedBomb(placedBomb);
+				}
+
+			}
+		}
+		this.manageRemoteBombPowerUp();
+	}
+
 	public void placeBomb(GameSetup game_setup) {
 		Bomberman b = Bomberman.getInstance();
 		if (bomb_timer > 0) {
@@ -291,6 +340,7 @@ public class Bomberman extends Character{
 			if (game_setup.getMap_entities().getPlaced_bombs().isEmpty() || 
 					( (power_up != null && power_up.getId() ==1) && this.multiple_bombs_power_up_timer > 0 ) ) {
 				if (bomb_timer == 0) {
+					AudioManager.getInstance().play(1);
 					BombModel placedBomb = new BombModel(bomb_aligned_x, bomb_aligned_y);
 					//ogni volta che viene piazzata una bomba, essa viene inserita in placedBombs e gli viene associato il set di tutti i tiles che saranno affetti
 					//dalla sua fiamma. Inizialmente questo set è vuoto e viene costruito in modo adeguato da drawBombs, ma è sbagliato farlo in quella funzione
@@ -327,6 +377,20 @@ public class Bomberman extends Character{
 		}
 		
 	}
+	
+	public void manageRemoteBombPowerUp() {
+		if (power_up != null) {
+			if (power_up.getId() == 8 && remote_bomb_power_up_timer > 0) {
+				remote_bomb_power_up_timer -= 1;
+			}
+//			else if (multiple_bombs_power_up_timer == 0) {
+//				power_up = null;
+//				multiple_bombs_power_up_timer = 300;
+//			}
+		}
+		
+	}
+
 
 	@Override
 	public boolean checkCollision(Coordinates[] hit_box, Direction dir, TileModel[][] map_structure, int tile_size) {

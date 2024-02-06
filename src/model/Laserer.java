@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import controller.ControlsHandler;
 import controller.Coordinates;
+import controller.listeners.ControlsHandler;
 
 public class Laserer extends Enemy {
 	private int shooting_cd = 0;

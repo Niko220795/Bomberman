@@ -14,6 +14,8 @@ import model.TrapModel;
 
 public class MapEntities {
 	private HashMap<BombModel, HashSet<TileModel>> placed_bombs;
+	private HashMap<BombModel, HashSet<TileModel>> remote_controlled_bomb;
+
 	private HashMap<TileModel, LaserUtil> laser_tiles;
 	private ArrayList<Projectile> projectiles;
 	private ArrayList<TrapModel> traps;
@@ -29,6 +31,7 @@ public class MapEntities {
 	}
 	public MapEntities() {
 		this.placed_bombs = new HashMap<BombModel, HashSet<TileModel>>();
+		this.remote_controlled_bomb = new HashMap<BombModel, HashSet<TileModel>>();
 		this.laser_tiles = new HashMap<TileModel, LaserUtil>();
 		this.projectiles = new ArrayList<Projectile>();
 		this.traps = new ArrayList<TrapModel>();
@@ -48,8 +51,15 @@ public class MapEntities {
 	public HashMap<BombModel, HashSet<TileModel>> getPlaced_bombs() {
 		return placed_bombs;
 	}
+	public HashMap<BombModel, HashSet<TileModel>> getRemote_controlled_bomb() {
+		return remote_controlled_bomb;
+	}
 	
 	public void addBomb(BombModel bomb) {
 		this.placed_bombs.put(bomb, new HashSet<TileModel>());
+	}
+	public void addRemoteBomb(BombModel bomb) {
+		System.out.println("addRemoteBomb");
+		this.remote_controlled_bomb.put(bomb, new HashSet<TileModel>());
 	}
 }
