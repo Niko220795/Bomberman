@@ -10,7 +10,7 @@ public class Walker extends Enemy{
 
 	public Walker(int x, int y, int health) {
 		super(x,y);
-		this.health = health;
+		super.health = health;
 	}
 	
 	public Walker(int x, int y) {

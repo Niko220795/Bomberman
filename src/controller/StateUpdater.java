@@ -16,6 +16,8 @@ import model.Bomberman;
 import model.TileModel;
 import model.TrapModel;
 import model.Character;
+import model.FatBoss;
+import model.FreezeBoss;
 import view.GamePanel;
 import model.LaserUtil;
 import model.PowerUpModel;
@@ -106,19 +108,35 @@ public class StateUpdater {
 	    while (iterator.hasNext()) {
 	        TileModel tile = iterator.next();
 	        if (tile.destruction_counter == 0){
+	        	boolean has_power_up = tile.containsPowerUp();
 	        	int tile_row = tile.getMatrix_pos_row();
 	        	int tile_col = tile.getMatrix_pos_col();
+	        	System.out.println("tile_row" + tile_row+tile_col);
 	        	Coordinates exit_tile = this.game_setup.getExit_tiles();
+	        	System.out.println("exit tile:" + exit_tile.i + exit_tile.j);
 	        	if (tile_row == exit_tile.j && tile_col == exit_tile.i) {
 	        		System.out.println("manageTiles :");
+	        		has_power_up = false;
 	        		tile.setExit(true);
 	        	}
-				tile.setModel_num(1);
+	        	if (this.game_setup.level_to_maps.get(this.game_setup.level) == "castle") {
+	        		tile.setModel_num(8);
+	        	}
+	        	else if (this.game_setup.level_to_maps.get(this.game_setup.level) == "red_castle") {
+	        		tile.setModel_num(14);
+	        	}
+	        	else if (this.game_setup.level_to_maps.get(this.game_setup.level) == "yellow_castle") {
+	        		tile.setModel_num(10);
+	        	}
+	        	
+	        	else {
+	        		tile.setModel_num(1);	        		
+	        	}
 				this.game_setup.selected_user.score += 200;
 				this.game_setup.scoreboard.update();
-				boolean has_power_up = tile.containsPowerUp();
+//				boolean has_power_up = tile.containsPowerUp();
 				if (has_power_up) {	
-					int i = this.game_setup.random_generator.nextInt(8,9);
+					int i = this.game_setup.random_generator.nextInt(1,9);
 					PowerUpModel power_up = new PowerUpModel(i, tile.getMatrix_pos_row(), tile.getMatrix_pos_col());
 					this.map_entities.getPower_ups().add(power_up);
 					tile.setPower_up(power_up);
@@ -211,6 +229,7 @@ public class StateUpdater {
 		for (Iterator<Character> iterator = this.game_setup.getCharacterModelsView().keySet().iterator(); iterator.hasNext();) {
 			Character c = iterator.next();
 			if (c.isDead()) {
+				
 				boolean can_disappear = c.decreaseDeathAnimationCounter();			
 				/*
 				 * se il death_animation_counter dura di più della fiamma il personaggio non sparisce, 
@@ -231,6 +250,12 @@ public class StateUpdater {
 						    	game_setup.scoreboard.update();
 						    }
 						  });
+					}
+					else if (c instanceof FatBoss || c instanceof FreezeBoss) {
+						this.game_setup.setLevel_ended(true);
+						if (!game_setup.endgame_sound_played) {
+							AudioManager.getInstance().play(8);
+						}
 					}
 					else {
 						SwingUtilities.invokeLater(new Runnable() {

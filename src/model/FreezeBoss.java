@@ -15,10 +15,9 @@ public class FreezeBoss extends Walker{
 	ArrayList<BossProjectile> boss_projectiles;
 	Random r = new Random();
 	public FreezeBoss(int x, int y, ArrayList<BossProjectile> boss_projectiles) {
-		super(x, y);
+		super(x, y, 3);
 		this.move_speed = 2;
 		this.boss_projectiles = boss_projectiles;
-		this.health = 5;
 	}
 
 	
@@ -115,6 +114,9 @@ public class FreezeBoss extends Walker{
 //		if(this.hurtCounter <= 0) {
 //			this.hurt = false;
 //		}
+		if (this.invulnerability > 0) {
+			this.invulnerability-=1;					
+		}
 		this.shooting_timer-=10;
 		if (this.shooting_timer<= 0) {
 			shootProjectile();
@@ -194,7 +196,15 @@ public class FreezeBoss extends Walker{
 
 		boolean damaged = this.checkDamage(map_structure);
 		if (damaged) {
+			System.out.println("freeze boss damaged");
+			System.out.println(super.health);
+			System.out.println(this.health);
+
 			this.damage();
+			System.out.println(super.health);
+			System.out.println(this.health);
+
+
 		}
 		this.damage_timer -= 10;
 		this.setChanged();

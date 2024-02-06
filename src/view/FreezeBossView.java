@@ -31,6 +31,7 @@ public class FreezeBossView extends EntityView implements Observer{
 		
 	}
 	
+
 	
 	 public void createAnimationArr() {
 			try {
@@ -59,8 +60,7 @@ public class FreezeBossView extends EntityView implements Observer{
 
 	@Override
 	public BufferedImage getDeadSprite(int animationCounter) {
-		return this.deadSprite[0];
-//		return this.deadSprite[(animationCounter/10)%2];
+		return deadSprite[(animationCounter/10)%2];
 	}
 
 

@@ -91,7 +91,14 @@ public void drawCharacters(Graphics g) {
 		EntityView view = this.game_setup.getCharacterModelsView().get(c);
 		if (c.isDead()) {
 			BufferedImage sprite = view.getDeadSprite(c.getDeath_animation_counter());
-			g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);
+
+			if (c instanceof FatBoss || c instanceof FreezeBoss) {
+				g.drawImage(sprite, c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);
+
+			}
+			else {
+				g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);				
+			}
 
 		}
 		else {
@@ -101,8 +108,10 @@ public void drawCharacters(Graphics g) {
 					g.drawImage(sprite, c.getPos_x()+view.getSpriteWidth()/2, c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);				
 				}
 			}
-			else if (c instanceof FatBoss) {
-				g.drawImage(sprite, c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);								
+			else if (c instanceof FatBoss || c instanceof FreezeBoss) {
+				if (c.invulnerability%2 == 0) {
+					g.drawImage(sprite, c.getPos_x(), c.getPos_y(), view.getSpriteWidth()*2, view.getSpriteHeight()*2, null);													
+				}
 
 			}
 			else if (c instanceof FreezeBoss) {

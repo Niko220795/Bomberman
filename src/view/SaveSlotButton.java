@@ -24,7 +24,7 @@ public class SaveSlotButton {
 		button.setFocusPainted(false);
 //		user.setOpaque(false);
 		button.setContentAreaFilled(false);
-		button.setBorder(BorderFactory.createLineBorder(Color.red, 5));
+		button.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 3));
 		button.setBorderPainted(false);
 	}
 	

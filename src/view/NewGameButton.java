@@ -17,6 +17,7 @@ public class NewGameButton {
 		new_game = new JButton();
 		new_game.setIcon((new ImageIcon("src/resources/menu/btn-newgame.png")));
 		new_game.setContentAreaFilled(false);
+		new_game.setFocusPainted(false);
 		new_game.setBorderPainted(false);
 	}
 	

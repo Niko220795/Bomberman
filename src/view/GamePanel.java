@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable{
 		else if (this.game_setup.isLevel_ended() && !clip.isRunning()) {
 			
 
-			g.drawImage(this.game_setup.getMenu().game_over, 0, 0, 768, 576, null);
+			g.drawImage(this.game_setup.getMenu().next_level, 0, 0, 768, 576, null);
 
 			
 		}

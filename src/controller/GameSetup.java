@@ -121,11 +121,21 @@ public class GameSetup {
 		this.level_to_maps = new HashMap<Integer, String>();
 		level_to_maps.put(1, "green_village");
 		level_to_maps.put(2, "blue_castle");
+		level_to_maps.put(3, "castle");
+		level_to_maps.put(4, "red_castle");
+		level_to_maps.put(5, "yellow_castle");
+
 	}
 	public void initializeExitTiles() {
 		this.exit_tiles = new HashMap<String, Coordinates>();
 		this.exit_tiles.put("green_village", new Coordinates(2,1));
 		this.exit_tiles.put("blue_castle", new Coordinates(4,3));
+		this.exit_tiles.put("castle", new Coordinates(100,100));
+		this.exit_tiles.put("red_castle", new Coordinates(3,2));
+		this.exit_tiles.put("yellow_castle", new Coordinates(100,100));
+
+
+
 
 	}
 	
@@ -184,6 +194,14 @@ public class GameSetup {
 		case 2:
 			this.tile_view = new TileView("blue_castle", 17, ".jpg");
 			break;
+		case 3:
+			this.tile_view = new TileView("castle", 28, ".jpg" );
+			break;
+		case 4:
+			this.tile_view = new TileView("red_castle", 23, ".jpg");
+			break;
+		case 5:
+			this.tile_view = new TileView("yellow_castle", 18, ".jpg" );
 		default:
 
 		}
@@ -200,6 +218,21 @@ public class GameSetup {
 			this.terrain_map.put(2, new HashSet<Integer>(Arrays.asList(1,8)));
 			this.destructible_map.put(2, new HashSet<Integer>(Arrays.asList(14)));
 			this.border_map.put(2, new HashSet<Integer>(Arrays.asList(10)));
+			break;
+		case 3:
+			this.terrain_map.put(3, new HashSet<Integer>(Arrays.asList(8)));
+			this.destructible_map.put(3, new HashSet<Integer>(Arrays.asList(25)));
+			this.border_map.put(3, new HashSet<Integer>(Arrays.asList(10)));
+			break;
+		case 4:
+			this.terrain_map.put(4, new HashSet<Integer>(Arrays.asList(14)));
+			this.destructible_map.put(4, new HashSet<Integer>(Arrays.asList(22)));
+			this.border_map.put(4, new HashSet<Integer>(Arrays.asList(10)));
+			break;
+		case 5:
+			this.terrain_map.put(5, new HashSet<Integer>(Arrays.asList(10,6)));
+			this.destructible_map.put(5, new HashSet<Integer>(Arrays.asList(17)));
+			this.border_map.put(5, new HashSet<Integer>(Arrays.asList(10)));
 			break;
 		}
 	}
