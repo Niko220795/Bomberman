@@ -1,5 +1,6 @@
 package controller;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -9,16 +10,19 @@ import java.io.ObjectInputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import controller.listeners.IconSetterListener;
+import controller.listeners.LoadFromLevelListener;
 import controller.listeners.LoadGameListener;
 import controller.listeners.SaveSlotGameListener;
 import controller.listeners.NewGameListener;
 import controller.listeners.ShowProfileIconListener;
 import controller.listeners.UsernameListener;
 import model.User;
+import view.LevelSelection;
 import view.Menu;
 import view.ProfileIcons;
 import view.SaveSlotButton;
@@ -37,7 +41,8 @@ public class MenuSetup {
 	public int selected_icon = 0;
 	public String username = "";
 	public User current_user;
-	
+	public LevelSelection level_selection = new LevelSelection();
+	public JLabel level_text;
 	
 	public MenuSetup() {
 		this.play_button = (new PlayButton()).getPlayButton();
@@ -56,6 +61,7 @@ public class MenuSetup {
 		initializeSaveSlots();
 		displaySaveSlots(background);
 		displayIcons(background);
+		displayLevels(background);
 		displayNewLoadGame(background);		
 		displayPlayLoadButton(background);
 		JFrame window = new JFrame();
@@ -122,6 +128,20 @@ public class MenuSetup {
 		this.play_button.setVisible(true);
 	}
 	
+	public void levelSelectionMenu() {
+		int i = 0;
+		for (SaveSlotButton save_slot : this.save_slots) {
+			save_slot.getButton().setVisible(false);
+			i+=1;
+		}
+		this.new_game.setVisible(false);
+		this.load_button.setVisible(false);
+		for (int j = 0; j<5; j++) {
+			this.level_selection.getButton(j).setVisible(true);
+		}
+		this.level_text.setVisible(true);
+	}
+	
 	public void displaySaveSlots(Menu background) {
 		int i = 0;
 		for (SaveSlotButton save_slot : this.save_slots) {
@@ -148,6 +168,25 @@ public class MenuSetup {
 		background.add(this.username_field);
 //		this.username_field.setVisible(false);
 		
+	}
+	
+	public void displayLevels(Menu background) {
+		level_text = new JLabel();
+		level_text.setFont(new Font("Rockwell Extra Bold", Font.BOLD, 40));
+		level_text.setForeground(Color.ORANGE);
+		level_text.setText("Select a level:");
+		background.add(level_text);
+		level_text.setVisible(false);
+		level_text.setBounds(250, 280, 400, 80);
+		for (int i = 0; i<5; i++) {
+			JButton level = this.level_selection.getButton(i);
+			level.addActionListener(new LoadFromLevelListener(i,this));
+			level.setBounds(150+100*i, 380, 80,80);
+			background.add(level);
+			level.setContentAreaFilled(false);
+			level.setVisible(false);
+			level.setBorderPainted(false);
+		}
 	}
 	
 	public void displayNewLoadGame(Menu background) {

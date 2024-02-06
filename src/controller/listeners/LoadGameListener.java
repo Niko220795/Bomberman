@@ -14,9 +14,9 @@ public class LoadGameListener implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (menu.current_user != null) {
-			GameWindow game_window = new GameWindow(menu);
-			game_window.getFrame().setVisible(true);
+		if (!menu.current_user.username.equals("-- EMPTY SLOT --")) {
+			System.out.println(menu.current_user.username);
+			menu.levelSelectionMenu();			
 		}
 		
 	}
