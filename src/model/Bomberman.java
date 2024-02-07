@@ -30,8 +30,10 @@ public class Bomberman extends Character{
 	private int shield_invulnerability = 0;
 	private int move_speed_buff_timer = 0;
 	private boolean bonus_score = false;
-	
 
+	/**
+	 * Resetta tutti i dati di Bomberman dopo una morte o un cambio di livello.
+	 */
 	public void reset() {
 		this.death_animation_counter = 60;
 		this.invulnerability = 0;
@@ -51,7 +53,6 @@ public class Bomberman extends Character{
 	public int getExplosion_limit() {
 		return explosion_limit;
 	}
-	
 
 
 	public void setPower_up(PowerUpModel power_up) {
@@ -89,7 +90,10 @@ public class Bomberman extends Character{
 	public boolean canKickBombs() {
 		return power_up != null && power_up.getId() == 2;
 	}
-	
+
+	/**
+	 * Gestisce il power-up per calciare le bombe.
+	 */
 	public void kickBombs(GameSetup game_setup) {
 		if (this.canKickBombs()) {			
 			var controls = game_setup.getControls();
@@ -108,7 +112,6 @@ public class Bomberman extends Character{
 			}
 			for (BombModel bomb : bombs) {
 				if (getPower_up() != null && !bomb.canSlide() &&  controls.canKickBomb()) {
-					System.out.println("test");
 					bomb.setSlide_dir(this.getDir());
 					bomb.setSliding(true);
 				}
@@ -140,14 +143,19 @@ public class Bomberman extends Character{
 	public void removeShield() {
 		this.shield = false;
 	}
-	
+
+	/**
+	 * Gestisce l'aumento del range di esplosione delle bombe (power-up)
+	 */
 	public void increaseExplosionRange() {
 		if (this.explosion_limit < 10) {
 			this.explosion_limit+=1;
 		}
 	}
 
-	
+	/**
+	 * Gestisce il danno subito
+	 */
 	@Override
 	public void damage() {
 		if (this.shield) {
@@ -164,6 +172,12 @@ public class Bomberman extends Character{
 		}
 	}
 
+	/**
+	 * Gestisce il movimento di Bomberman e il ghosting, utilizzando Observer-Observable
+	 * @param tile_size
+	 * @param map_structure
+	 * @param controls tasti premuti
+	 */
 	@Override
 	public void move(int tile_size, TileModel[][] map_structure, ControlsHandler controls) {
 		if (!isDead()) {
@@ -185,7 +199,6 @@ public class Bomberman extends Character{
 				
 				}
 				Coordinates[] hit_box = this.collisionHitBox(tile_size);
-//				PowerUpModel power_up = this.getPower_up();
 				boolean needs_to_ghost = false;
 				for (Coordinates c : hit_box) {
 					int c_row = c.j/GamePanel.FINAL_TILE_SIZE;
@@ -199,16 +212,12 @@ public class Bomberman extends Character{
 				if (power_up != null) {
 					ghosting = power_up.getId() == 3 && this.ghosting_timer > 0;
 				}
-//				if (getGhosting_timer() > 0) {
-//					decreaseGhosting_timer();
-//				
-//				}
+
 				if (controls.isUp() == true && 	getPos_y()-Bomberman.getInstance().getMoveSpeed() >= 0) {
 					boolean canMove = !checkCollision(hit_box, Direction.UP, map_structure, tile_size);
 					if (canMove || ghosting || needs_to_ghost) {
 						up();
-						this.setChanged();
-	//				bv.setNextUp();				
+						this.setChanged(); //observer
 					}
 				}
 				else if (controls.isDown() == true && getPos_y()+tile_size+Bomberman.getInstance().getMoveSpeed() <= 
@@ -217,7 +226,6 @@ public class Bomberman extends Character{
 					if (canMove || ghosting || needs_to_ghost) {				
 						down();
 						this.setChanged();
-	//				bv.setNextDown();
 					}
 				}
 				else if (controls.isLeft() == true && getPos_x()-Bomberman.getInstance().getMoveSpeed() >= 0) {
@@ -225,7 +233,6 @@ public class Bomberman extends Character{
 					if (canMove || ghosting || needs_to_ghost) {
 						left();
 						this.setChanged();
-	//				bv.setNextLeft();				
 					}
 					
 				}
@@ -234,7 +241,6 @@ public class Bomberman extends Character{
 					if (canMove || ghosting || needs_to_ghost) {
 						right();
 						this.setChanged();
-	//				bv.setNextRight();			
 					}
 					
 				}
@@ -243,13 +249,15 @@ public class Bomberman extends Character{
 				if (damaged) {
 					this.damage();
 				}
-				
-				this.notifyObservers(this.getDir());
+				this.notifyObservers(this.getDir()); //observer
 				this.clearChanged();
 			}
 			
 		}
-	
+
+	/**
+	 * Controlla se si incontrano dei power-up, serve alla funzione move. Gestisce i power-up incontrati in base al loro id.
+	 */
 	public void checkPowerUp(TileModel[][] map_structure) {
 		Coordinates[] hitbox = this.damageHitBox(GamePanel.FINAL_TILE_SIZE);
 		for (Coordinates c : hitbox) {
@@ -297,7 +305,10 @@ public class Bomberman extends Character{
 	public void resetBonusScore() {
 		this.bonus_score = false;
 	}
-	
+
+	/**
+	 * Gestisce il piazzamento della bomba con detonazione controllata.
+	 */
 	public void placeRemoteBomb(GameSetup game_setup) {
 		if (game_setup.getMap_entities().getRemote_controlled_bomb().size() == 0) {
 			int b_center_x = this.getPos_x() + GamePanel.FINAL_TILE_SIZE/2;
@@ -307,19 +318,19 @@ public class Bomberman extends Character{
 			int bomb_tile_col = bomb_aligned_x/GamePanel.FINAL_TILE_SIZE;
 			int bomb_tile_row = bomb_aligned_y/GamePanel.FINAL_TILE_SIZE;
 			if (game_setup.getRemote_bomb_listener().isPlaced()) {
-				System.out.println("placeRemoteBomb");
 				if ((power_up != null && power_up.getId() == 8) && this.remote_bomb_power_up_timer > 0){
-					
 					BombModel placedBomb = new BombModel(bomb_aligned_x, bomb_aligned_y);
 					game_setup.getMap_entities().addRemoteBomb(placedBomb);
 					game_setup.getMap_structure()[bomb_tile_row][bomb_tile_col].setPlacedBomb(placedBomb);
 				}
-
 			}
 		}
 		this.manageRemoteBombPowerUp();
 	}
 
+	/**
+	 * Gestisce il piazzamento della bomba standard.
+	 */
 	public void placeBomb(GameSetup game_setup) {
 		Bomberman b = Bomberman.getInstance();
 		if (bomb_timer > 0) {
@@ -336,8 +347,7 @@ public class Bomberman extends Character{
 			int bomb_tile_row = bomb_aligned_y/GamePanel.FINAL_TILE_SIZE;
 			
 			//Si utilizza un timer per evitare di piazzare troppe bombe in un determinato istante di tempo. La bomba viene piazzata solo se il timer è giunto allo zero
-//				PowerUpModel power_up = Bomberman.getInstance().getPower_up();
-			if (game_setup.getMap_entities().getPlaced_bombs().isEmpty() || 
+			if (game_setup.getMap_entities().getPlaced_bombs().isEmpty() ||
 					( (power_up != null && power_up.getId() ==1) && this.multiple_bombs_power_up_timer > 0 ) ) {
 				if (bomb_timer == 0) {
 					AudioManager.getInstance().play(1);
@@ -345,12 +355,8 @@ public class Bomberman extends Character{
 					//ogni volta che viene piazzata una bomba, essa viene inserita in placedBombs e gli viene associato il set di tutti i tiles che saranno affetti
 					//dalla sua fiamma. Inizialmente questo set è vuoto e viene costruito in modo adeguato da drawBombs, ma è sbagliato farlo in quella funzione
 					//perché fa già troppe cose. Si può costruire una funzione utilitaria che calcola i tile dove saranno le fiamme e chiamarla direttamente qui dentro
-//					placedBombs.put(placedBomb, new HashSet<TileModel>());	
 					game_setup.getMap_entities().addBomb(placedBomb);
-//				Thread t = new Thread(new SoundPlayer(this.audio_samples.files, 1));
-//				t.start();
-//					this.audio_samples.play(1);
-//				this.audio_samples.play(2);
+
 					game_setup.getMap_structure()[bomb_tile_row][bomb_tile_col].setPlacedBomb(placedBomb);
 					//Si riavvia il timer dopo il piazzamento
 					bomb_timer = 17;	
@@ -358,40 +364,35 @@ public class Bomberman extends Character{
 			}
 		}
 		this.manageMultipleBombsPowerUp();
-		
-		
-		//Si decrementa il timer se non è stata pizzata nessuna bomba
-		
-		
 	}
-	
+
+	/**
+	 * Gestisce il timer del power-up
+	 */
 	public void manageMultipleBombsPowerUp() {
 		if (power_up != null) {
 			if (power_up.getId() == 1 && multiple_bombs_power_up_timer > 0) {
 				multiple_bombs_power_up_timer -= 1;
 			}
-//			else if (multiple_bombs_power_up_timer == 0) {
-//				power_up = null;
-//				multiple_bombs_power_up_timer = 300;
-//			}
 		}
-		
 	}
-	
+
+	/**
+	 * Gestisce il timer del power-up
+	 */
 	public void manageRemoteBombPowerUp() {
 		if (power_up != null) {
 			if (power_up.getId() == 8 && remote_bomb_power_up_timer > 0) {
 				remote_bomb_power_up_timer -= 1;
 			}
-//			else if (multiple_bombs_power_up_timer == 0) {
-//				power_up = null;
-//				multiple_bombs_power_up_timer = 300;
-//			}
 		}
-		
 	}
 
 
+	/**
+	 * Effettua il controllo sulle collisioni.
+	 * @return
+	 */
 	@Override
 	public boolean checkCollision(Coordinates[] hit_box, Direction dir, TileModel[][] map_structure, int tile_size) {
 		boolean canPass1 = false;
@@ -421,11 +422,12 @@ public class Bomberman extends Character{
 		else {
 			return true;
 		}
-
 	}
 
 
-
+	/**
+	 *  Ritorna le coordinate dell'hitbox di Bomberman
+	 */
 	@Override
 	public Coordinates[] collisionHitBox(int tile_size) {
 		int hitBoxUpperLeft_x = getPos_x()+tile_size/5;
@@ -444,7 +446,10 @@ public class Bomberman extends Character{
 		return hit_box;
 		
 	}
-	
+
+	/**
+	 * Ritorna le coordinate dell'hitbox di Bomberman relativo al danno
+	 */
 	public Coordinates[] damageHitBox(int tile_size) {
 		int hitBoxUpperLeft_x = getPos_x()+tile_size/5;
 		int hitBoxUpperLeft_y = getPos_y()+tile_size*1/5;
@@ -463,7 +468,9 @@ public class Bomberman extends Character{
 		
 	}
 
-	
+	/**
+	 * Controlla se Bomberman si trova su un tile di uscita.
+	 */
 	public boolean checkExit(TileModel[][] map_structure) {
 		Coordinates[] hitbox = this.collisionHitBox(GamePanel.FINAL_TILE_SIZE);
 
@@ -478,6 +485,9 @@ public class Bomberman extends Character{
 	}
 
 
+	/**
+	 * Controlla se Bomberman sta su un tile con un'entity che provoca danno.
+	 */
 	@Override
 	public boolean checkDamage(TileModel[][] map_structure) {
 		Coordinates[] hitbox = this.damageHitBox(GamePanel.FINAL_TILE_SIZE);

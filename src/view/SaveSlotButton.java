@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import controller.listeners.SaveSlotGameListener;
 import model.User;
 
+/**
+ * Buttons che gestiscono i save slot del menu.
+ */
 public class SaveSlotButton {
 
 	public User user;
@@ -22,7 +25,6 @@ public class SaveSlotButton {
 		button.setForeground(Color.ORANGE);
 		button.setFont(new Font("Rockwell Extra Bold", Font.BOLD, 30));
 		button.setFocusPainted(false);
-//		user.setOpaque(false);
 		button.setContentAreaFilled(false);
 		button.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 3));
 		button.setBorderPainted(false);

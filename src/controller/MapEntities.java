@@ -3,7 +3,6 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-
 import model.LaserUtil;
 import model.PowerUpModel;
 import model.Projectile;
@@ -59,7 +58,6 @@ public class MapEntities {
 		this.placed_bombs.put(bomb, new HashSet<TileModel>());
 	}
 	public void addRemoteBomb(BombModel bomb) {
-		System.out.println("addRemoteBomb");
 		this.remote_controlled_bomb.put(bomb, new HashSet<TileModel>());
 	}
 }

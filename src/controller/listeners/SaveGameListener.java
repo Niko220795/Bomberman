@@ -29,9 +29,7 @@ public class SaveGameListener implements ActionListener{
 					objectOutputStream.writeObject(game_setup.getSelected_user());
 					objectOutputStream.flush();
 					objectOutputStream.close();				
-					System.out.println(user_id);
 				} catch (Exception ex) {
-					// TODO Auto-generated catch block
 					ex.printStackTrace();
 				}
 		    	

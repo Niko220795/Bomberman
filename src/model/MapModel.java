@@ -11,7 +11,7 @@ public class MapModel {
 	
 	private TileModel[][] mapStructure;
 	
-	//File di configurazione per indicare, insieme alla mappa, quali blocchi devono avere la collision attiva.
+	/**File di configurazione per indicare, insieme alla mappa, quali blocchi devono avere la collision attiva. */
 	private HashSet<Integer> terrain_config;
 	private HashSet<Integer> destructible_config;
 	private HashSet<Integer> border_config;
@@ -29,7 +29,7 @@ public class MapModel {
 			File file = new File(path);
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			mapText = br.lines();
-			this.mapStructure = mapText.map(MapModel::tileMapping).toArray(TileModel[][]::new);
+			this.mapStructure = mapText.map(MapModel::tileMapping).toArray(TileModel[][]::new); //stream
 			this.setTilesCoord();
 			//fa un ulteriore passaggio sulla mapStructure per settare i blocchi con la collision in base al config
 			configureTiles();
@@ -41,33 +41,10 @@ public class MapModel {
 		
 		
 	}
-//	
-//public MapModel(String path) {
-//		
-//		Stream<String> mapText;
-//		
-//		
-//		try {
-//			File file = new File(path);
-//			BufferedReader br = new BufferedReader(new FileReader(file));
-//			mapText = br.lines();
-//			this.mapStructure = mapText.map(MapModel::tileMapping).toArray(TileModel[][]::new);
-//			this.setTilesCoord();
-//			//fa un ulteriore passaggio sulla mapStructure per settare i blocchi con la collision in base al config
-//			configureCollision();
-//			br.close();
-//			
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		
-//	}
-//	
+
 	
 	
-	/*
+	/**
 	 * Funzione per impostare la collisione sulla mapStructure. Scorre su tutti i singoli TileModel della mapStructure e
 	 * se il loro modelNum corrisponde ad uno dei valori nel file di config, attiva la collision su quel Tile
 	 */
@@ -92,27 +69,6 @@ public class MapModel {
 				if (border_config.contains(mapStructure[i][j].getModel_num())) {
 					mapStructure[i][j].setBorder();
 				}
-//				for (int c : collision_config) {
-//					if (mapStructure[i][j].getModel_num() == c) {
-//						mapStructure[i][j].setCollision(false);
-//						break;
-//					}
-//				}
-//				
-//				for (int d : destructible_config) {
-//					if (mapStructure[i][j].getModel_num() == d) {
-//						mapStructure[i][j].setDestructible(false);
-//						break;
-//					}
-//				}
-//				
-//				for (int b : border_config) {
-//					if (mapStructure[i][j].getModel_num() == b) {
-//						mapStructure[i][j].setBorder();
-//						break;
-//					}
-//				}
-//				
 			}
 		}
 	}

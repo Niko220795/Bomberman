@@ -1,5 +1,7 @@
 package model;
-
+/**
+ * Classe con getter e setter per gestire il model delle trappole.
+ */
 public class TrapModel extends Entity {
 	
 	private int row;

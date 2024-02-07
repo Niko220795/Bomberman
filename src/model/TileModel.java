@@ -3,6 +3,9 @@ import java.util.Random;
 
 import controller.GameSetup;
 
+/**
+ * Classe con getter e setter per gestire il model del tile.
+ */
 public class TileModel {
 	
 
@@ -83,15 +86,7 @@ public class TileModel {
 			return false;
 		}
 	}
-	
-//	public boolean hasPowerUp() {
-//		int i = r.nextInt(3);
-//		if (i == 0) {
-//			return true;
-//		}
-//		return false;
-//	}
-//	
+
 	public boolean isExploding() {
 		return exploding;
 	}
@@ -148,9 +143,6 @@ public class TileModel {
 	}
 
 
-	
-
-
 	public void setColCoord(int col) {
 		this.matrix_pos_col = col;
 	}
@@ -160,9 +152,7 @@ public class TileModel {
 		this.matrix_pos_row = row;
 		
 	}
-	
-	
-	
+
 	
 	
 }

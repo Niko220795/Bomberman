@@ -1,46 +1,25 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
-
-import controller.AudioManager;
 import controller.listeners.ControlsHandler;
 import controller.listeners.RemoteBombListener;
 import view.EntityView;
 import model.Bomberman;
 import model.Character;
-import model.Direction;
-import model.Laserer;
 import model.MapModel;
-import model.Shooter;
 import model.TileModel;
-import model.Trapper;
 import model.User;
-import model.Walker;
 import view.BombView;
 import view.BombermanView;
-import view.CharacterView;
-import view.EnemyView;
-import view.FinestraDiGioco;
-import view.FreezeBossView;
 import view.GameWindow;
 import view.TileView;
-import view.TrapperView;
-import view.WalkerView;
-import view.ImmobileView;
 import view.LaserView;
 import view.Menu;
 import view.PowerUpView;
 import view.ScoreBoardView;
-import view.ShooterView;
-import view.CharacterView;
-import view.FatBossView;
-import model.FatBoss;
-import model.FreezeBoss;
-import view.FreezeBossView;
 
 public class GameSetup {
 	
@@ -48,7 +27,6 @@ public class GameSetup {
 	User selected_user;
 	ControlsHandler controls;
 	RemoteBombListener remote_bomb_listener;
-	FinestraDiGioco fdg;
 	TileModel[][] map_structure;
 	BombermanView bomberman_view;
 	LaserView laser_view;
@@ -65,11 +43,6 @@ public class GameSetup {
 	HashMap<Integer, String> level_to_maps;
 	ScoreBoardView scoreboard;
 	public boolean endgame_sound_played = false;
-//	AudioManager audio_samples = new AudioManager();
-
-//	public AudioManager getAudio_samples() {
-//		return audio_samples;
-//	}
 
 	public void setScoreboard(ScoreBoardView scoreboard) {
 		this.scoreboard = scoreboard;
@@ -81,9 +54,11 @@ public class GameSetup {
 	boolean game_over = false;
 	public static Random random_generator = new Random();
 	int level;
-	
 
-	
+
+	/**
+	 * Costruttore che inizializza tutto il necessario all'inizializzazione del gioco.
+	 */
 	public GameSetup(User selected_user) {
 		this.initializeLevelToMaps();
 		this.initializeExitTiles();
@@ -93,14 +68,10 @@ public class GameSetup {
 		this.power_up_view = new PowerUpView();
 		this.controls = new ControlsHandler();
 		this.remote_bomb_listener = new RemoteBombListener();
-//		this.tile_view = new TileView(map_name, 24, ".png");
-//		bomberman_view = new BombermanView();
-//		bomberman.addObserver(bomberman_view);
 		this.map_entities = new MapEntities();
 		level = selected_user.level;
 		this.resetGame();
-//		MapModel map = new MapModel("src/resources/map.txt", arr,arr2,arr2);
-//		this.map_structure = map.getMapStructure();
+
 		
 	}
 	
@@ -108,15 +79,19 @@ public class GameSetup {
 		return remote_bomb_listener;
 	}
 
+
+	/**
+	 * Aggiorna il livello dell'user.
+	 */
 	public void nextLevel() {
-		
 		this.selected_user.level++;
 		this.level++;
-		
 	}
-	
-	
-	
+
+
+	/**
+	 * Questo metodo utilitario serve a ricavare i nomi delle mappe a partire dal numero del livello.
+	 */
 	public void initializeLevelToMaps() {
 		this.level_to_maps = new HashMap<Integer, String>();
 		level_to_maps.put(1, "green_village");
@@ -126,6 +101,10 @@ public class GameSetup {
 		level_to_maps.put(5, "yellow_castle");
 
 	}
+
+	/**
+	 * Questo metodo utilitario serve a ricavare le coordinate dei tiles di uscita a partire dal livello.
+	 */
 	public void initializeExitTiles() {
 		this.exit_tiles = new HashMap<String, Coordinates>();
 		this.exit_tiles.put("green_village", new Coordinates(2,1));
@@ -143,15 +122,15 @@ public class GameSetup {
 		return exit_tiles.get(this.level_to_maps.get(this.level));
 	}
 
+	/**
+	 * Questo metodo serve a resettare il gioco in caso di vittoria o di morte.
+	 */
 	public void resetGame() {
-		System.out.println("reset game");
 		if (this.level_ended == true) {
-			System.out.println("old level = "+ this.level);
 			this.nextLevel();
 			this.level_ended = false;
-			System.out.println("new level = "+ this.level);
-
 		}
+
 		String map_config = "src/resources/map" + this.level +".txt";
 		String enemies = "src/resources/enemies" + this.level +".txt";
 
@@ -175,7 +154,13 @@ public class GameSetup {
 	public HashMap<Character, EntityView> getCharacterModelsView() {
 		return characterModelsView;
 	}
-	
+
+	/**
+	 * Questo metodo inizializza il gioco a partire dai file di configurazione e dal livello.
+	 * @param enemies configurazione dei nemici
+	 * @param map_config configurazione della mappa
+	 * @param level livello attuale.
+	 */
 	public void initializeGame(String enemies, String map_config, int level) {
 		this.initializeCharacterView(enemies);
 		this.initializeMap(level);
@@ -186,6 +171,10 @@ public class GameSetup {
 		
 	}
 
+	/**
+	 * Inizializza la grafica della mappa in base al livello.
+	 * @param map_id id della mappa appartenente ad un determinato livello.
+	 */
 	public void initializeMap(int map_id) {
 		switch(map_id) {
 		case 1:
@@ -206,7 +195,11 @@ public class GameSetup {
 
 		}
 	}
-	
+
+	/**
+	 * Inizializza le configurazioni per i singoli tiles, distruttibili o trapassabili.
+	 * @param map_id id della mappa appartenente ad un determinato livello.
+	 */
 	public void initializeTileMaps(int map_id) {
 		switch(map_id) {
 		case 1:
@@ -236,19 +229,14 @@ public class GameSetup {
 			break;
 		}
 	}
-	
-	
+
+	/**
+	 * Inizializza i nemici e Bomberman a partire dal file di configurazione associandogli la view opportuna.
+	 */
 	public void initializeCharacterView(String path) {
 		this.characterModelsView = new HashMap<Character,EntityView>();
 		this.characterModelsView.put(Bomberman.getInstance(), new BombermanView());
 		this.entity_instantiator = new EntityInstantiator(path,this);
-//		this.characterModelsView.put(new Walker(144,252), new WalkerView());
-//		this.characterModelsView.put(new Shooter(144,252, this.map_entities.getProjectiles()), new ShooterView());
-//		this.characterModelsView.put(new Trapper(144,252, this.map_entities.getTraps(), this), new TrapperView());
-//		this.characterModelsView.put(new Laserer(144,252, Direction.LEFT, this.map_entities.getLaser_tiles()), new ImmobileView());
-
-//		this.characterModelsView.put(new FatBoss(300,250), new FatBossView());
-//		this.characterModelsView.put(new FreezeBoss(300,300,this.map_entities.getBoss_projectiles()), new FreezeBossView());
 		for (Character c : this.characterModelsView.keySet()) {
 			c.addObserver(this.characterModelsView.get(c));
 		}
@@ -266,9 +254,6 @@ public class GameSetup {
 		return controls;
 	}
 
-	public FinestraDiGioco getFdg() {
-		return fdg;
-	}
 
 	public TileModel[][] getMap_structure() {
 		return map_structure;

@@ -1,8 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-
-import controller.Coordinates;
 import controller.GameSetup;
 import controller.listeners.ControlsHandler;
 
@@ -17,7 +15,6 @@ public class Trapper extends Walker{
 		super(x,y);
 		this.traps = traps;
 		this.game_setup = game_setup;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -31,9 +28,11 @@ public class Trapper extends Walker{
 		return traps;
 	}
 
+	/**
+	 * Funzione che permette al nemico di piazzare una trappola sul terreno.
+	 */
 	private void placeTrap(int tile_size, TileModel[][] map_structure, ControlsHandler controls, ArrayList<TrapModel> traps) {
 		if (this.trap_timer <= 0) {
-			System.out.println("placed trap");
 			int b_center_x = getPos_x() + tile_size/2;
 			int b_center_y = getPos_y() + tile_size/2;
 			int trap_aligned_x = b_center_x - b_center_x%tile_size;

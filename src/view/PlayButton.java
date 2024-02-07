@@ -17,9 +17,7 @@ public class PlayButton {
 		button.setContentAreaFilled(false);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
-
 		button.setIcon(new ImageIcon("src/resources/menu/btn-play.png"));
-//		button.addActionListener(new LoadGameListener(user));
 	}
 	
 	public JButton getPlayButton() {

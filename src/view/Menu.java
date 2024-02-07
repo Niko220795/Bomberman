@@ -7,14 +7,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Menu extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	
 	BufferedImage sfondo;
 	BufferedImage game_over;
 	BufferedImage next_level;
@@ -28,7 +25,6 @@ public class Menu extends JPanel {
 			
 		} catch (IOException e) {
 			
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		var g2d = next_level.createGraphics();

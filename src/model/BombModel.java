@@ -1,7 +1,5 @@
 package model;
 import java.util.HashSet;
-import java.util.Observable;
-
 import controller.AudioManager;
 import view.GamePanel;
 
@@ -23,43 +21,38 @@ public class BombModel extends Entity {
 	private Direction slide_dir;
 	private boolean can_slide = false;
 	private int remote_explosion_duration = 30;
-	
-//	private int pos_x;
-//	private int pos_y;
-//	
-//	public int getPos_x() {
-//		return pos_x;
-//	}
-	
-	public void damaged(Character c) {
-		this.damagedCharacter.add(c);
-	}
-	
+
+	/**
+	 * Gestisce il limite dell'esplosione per disegnare la bomba.
+	 */
 	public void setExplosionLimit(Bomberman b) {
 		this.up_explosion_limit = b.getExplosion_limit();
 		this.right_explosion_limit = b.getExplosion_limit();
 		this.down_explosion_limit = b.getExplosion_limit();
 		this.left_explosion_limit = b.getExplosion_limit();
 	}
-	
-	public boolean hasDamaged(Character c) {
-		return this.damagedCharacter.contains(c);
-	}
-	
-	
+
+	/**
+	 * Istanzia una bomba nella posizione in input.
+	 */
 	public BombModel(int x, int y) {
 		setPos_x(x);
 		setPos_y(y);
 	}
-	
+
+	/**
+	 * Aggiorna il counter dell'animazione.
+	 */
 	public void updateAnimationCounter() {
 		if (animationCounter == 12) {
 			animationCounter = 0;
 		}
 		else animationCounter++;
 	}
-	
 
+	/**
+	 * Gestisce la durata dell'esplosione. Quando il timer scade, la bomba scade.
+	 */
 	public void decreaseRemoteExplosionDuration() {
 		if (this.remote_explosion_duration > 0){
 			this.remote_explosion_duration -= 1;
@@ -72,15 +65,13 @@ public class BombModel extends Entity {
 	public boolean remoteExplosionExpired() {
 		return this.remote_explosion_duration == 0;
 	}
-	
+
+	/**
+	 * Gestisce la durata dell'animazione della bomba prima e dopo l'esplosione.
+	 * @param tile_size
+	 */
 	public void fireFuse(int tile_size) {
-		 
         if (fuse == 30) {
-        	//codice per quando si calcia la bomba, per non farla esplodere disallineata
-        	//con un tile
-//        	if (this.getPos_x()%tile_size != 0 || this.getPos_y()%tile_size != 0) {
-//        		return;
-//        	}
             explode(); // Facciamo esplodere la bomba quando il timer raggiunge zero
             AudioManager.getInstance().play(2);
         }
@@ -112,6 +103,9 @@ public class BombModel extends Entity {
 		this.can_slide = can_slide;
 	}
 
+	/**
+	 * Gestisce il movimento della bomba per il power-up che permette di calciarla.
+	 */
 	public void slide(Direction dir, TileModel[][] map_structure) {
 		if (this.can_slide && !this.hasExploded) {
 			

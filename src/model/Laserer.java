@@ -1,9 +1,6 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-
 import controller.Coordinates;
 import controller.listeners.ControlsHandler;
 
@@ -65,7 +62,6 @@ public class Laserer extends Enemy {
 
 	@Override
 	public boolean checkCollision(Coordinates[] hit_box, Direction dir, TileModel[][] map_structure, int tile_size) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -102,15 +98,6 @@ public class Laserer extends Enemy {
 			
 		}
 		
-//		Bomberman b = Bomberman.getInstance();
-//		Coordinates[] hit_box = b.collisionHitBox(tile_size);
-//		for (Coordinates c : hit_box) {
-//			int row = c.j/tile_size;
-//			int col = c.i/tile_size;
-//			if (this.laser_tiles.containsKey(map_structure[row][col])){
-//				b.damage();
-//			}
-//		}
 		
 	}
 

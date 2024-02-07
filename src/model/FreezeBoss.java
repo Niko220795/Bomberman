@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import controller.Coordinates;
 import controller.listeners.ControlsHandler;
 import view.GamePanel;
@@ -81,22 +80,18 @@ public class FreezeBoss extends Walker{
 		case UP:
 			canPass1 = !map_structure[(hit_box[0].j-this.getMoveSpeed())/tile_size][hit_box[0].i/tile_size].isBorder();
 			canPass2 = !map_structure[(hit_box[1].j-this.getMoveSpeed())/tile_size][hit_box[1].i/tile_size].isBorder();
-//			canPass3 = map_structure[(hit_box[0].j-this.getMoveSpeed())/tile_size][hit_box[0].i/tile_size].getPlacedBomb() == null;
 			break;
 		case RIGHT:
 			canPass1 = !map_structure[hit_box[1].j/tile_size][(hit_box[1].i+this.getMoveSpeed())/tile_size].isBorder();
 			canPass2 = !map_structure[hit_box[2].j/tile_size][(hit_box[2].i+this.getMoveSpeed())/tile_size].isBorder();
-//			canPass3 = map_structure[hit_box[1].j/tile_size][(hit_box[1].i+this.getMoveSpeed())/tile_size].getPlacedBomb() == null;
 			break;
 		case DOWN:
 			canPass1 = !map_structure[(hit_box[2].j+this.getMoveSpeed())/tile_size][hit_box[2].i/tile_size].isBorder();
 			canPass2 = !map_structure[(hit_box[3].j+this.getMoveSpeed())/tile_size][hit_box[3].i/tile_size].isBorder();
-//			canPass3 = map_structure[(hit_box[2].j+this.getMoveSpeed())/tile_size][hit_box[2].i/tile_size].getPlacedBomb() == null;
 			break;
 		case LEFT:
 			canPass1 = !map_structure[hit_box[3].j/tile_size][(hit_box[3].i-this.getMoveSpeed())/tile_size].isBorder();
 			canPass2 = !map_structure[hit_box[0].j/tile_size][(hit_box[0].i-this.getMoveSpeed())/tile_size].isBorder();
-//			canPass3 = map_structure[hit_box[3].j/tile_size][(hit_box[3].i-this.getMoveSpeed())/tile_size].getPlacedBomb() == null;
 			break;
 		default:
 		}
@@ -110,10 +105,7 @@ public class FreezeBoss extends Walker{
 	
 	@Override
 	public void move(int tile_size, TileModel[][] map_structure, ControlsHandler controls){
-//		this.hurtCounter-=1;
-//		if(this.hurtCounter <= 0) {
-//			this.hurt = false;
-//		}
+
 		if (this.invulnerability > 0) {
 			this.invulnerability-=1;					
 		}
@@ -138,7 +130,6 @@ public class FreezeBoss extends Walker{
 				if (canMove) {
 					move();
 					this.setChanged();
-//			bv.setNextUp();				
 				}
 				else {
 					changeDir();
@@ -151,7 +142,6 @@ public class FreezeBoss extends Walker{
 				if (canMove) {				
 					move();
 					this.setChanged();
-//			bv.setNextDown();
 				}
 				else {
 					changeDir();
@@ -163,7 +153,6 @@ public class FreezeBoss extends Walker{
 				if (canMove) {
 					move();
 					this.setChanged();
-//			bv.setNextLeft();				
 				}
 				else {
 					changeDir();
@@ -176,7 +165,6 @@ public class FreezeBoss extends Walker{
 				if (canMove) {
 					move();
 					this.setChanged();
-//			bv.setNextRight();			
 				}
 				else {
 					changeDir();
@@ -196,14 +184,7 @@ public class FreezeBoss extends Walker{
 
 		boolean damaged = this.checkDamage(map_structure);
 		if (damaged) {
-			System.out.println("freeze boss damaged");
-			System.out.println(super.health);
-			System.out.println(this.health);
-
 			this.damage();
-			System.out.println(super.health);
-			System.out.println(this.health);
-
 
 		}
 		this.damage_timer -= 10;
@@ -213,6 +194,10 @@ public class FreezeBoss extends Walker{
 		
 		
 	}
+
+	/**
+	 * Genera 5 o 6 proiettili e li spara in direzioni casuali. Viene chiamata in move
+	 */
 	public void shootProjectile() {
 		for (int i = 0; i < 6; i++) {
 			int r1 = r.nextInt(-5,5);
@@ -225,17 +210,5 @@ public class FreezeBoss extends Walker{
 			this.boss_projectiles.add(new BossProjectile(this.getPos_x(), this.getPos_y(), dir));
 		}
 	}
-	
-//	@Override
-//	public void damage() {
-//		System.out.println("hit boss");
-//		if (hurtCounter <= 0) {
-//			this.health -= 1;
-//			if (this.health == 0) {
-//				this.dead = true;
-//			}
-//			this.hurtCounter = 200;		
-//			this.hurt = true;
-//		}
-//	}
+
 }

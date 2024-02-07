@@ -16,31 +16,26 @@ public class FatBoss extends Walker {
 		boolean canPass1 = false;
 		boolean canPass2 = false;
 		boolean canPass3 = false;
-//		Coordinates[] bomberman_hit_box = Bomberman.getInstance().collisionHitBox(tile_size);
 		switch(dir) {
 		case UP:
 			canPass1 = !map_structure[(hit_box[0].j-this.getMoveSpeed())/tile_size][hit_box[0].i/tile_size].isBorder();
 			canPass2 = !map_structure[(hit_box[1].j-this.getMoveSpeed())/tile_size][hit_box[1].i/tile_size].isBorder();
-			//			canPass3 = map_structure[(hit_box[0].j-this.getMoveSpeed())/tile_size][hit_box[0].i/tile_size].getPlacedBomb() == null;
 			break;
 		case RIGHT:
 			canPass1 = !map_structure[hit_box[1].j/tile_size][(hit_box[1].i+this.getMoveSpeed())/tile_size].isBorder();
 			canPass2 = !map_structure[hit_box[2].j/tile_size][(hit_box[2].i+this.getMoveSpeed())/tile_size].isBorder();
-//			canPass3 = map_structure[hit_box[1].j/tile_size][(hit_box[1].i+this.getMoveSpeed())/tile_size].getPlacedBomb() == null;
 			break;
 		case DOWN:
 			canPass1 = !map_structure[(hit_box[2].j+this.getMoveSpeed())/tile_size][hit_box[2].i/tile_size].isBorder();
 			canPass2 = !map_structure[(hit_box[3].j+this.getMoveSpeed())/tile_size][hit_box[3].i/tile_size].isBorder();
-//			canPass3 = map_structure[(hit_box[2].j+this.getMoveSpeed())/tile_size][hit_box[2].i/tile_size].getPlacedBomb() == null;
 			break;
 		case LEFT:
 			canPass1 = !map_structure[hit_box[3].j/tile_size][(hit_box[3].i-this.getMoveSpeed())/tile_size].isBorder();
 			canPass2 = !map_structure[hit_box[0].j/tile_size][(hit_box[0].i-this.getMoveSpeed())/tile_size].isBorder();
-//			canPass3 = map_structure[hit_box[3].j/tile_size][(hit_box[3].i-this.getMoveSpeed())/tile_size].getPlacedBomb() == null;
 			break;
 		default:
 		}
-		if (canPass1 && canPass2 /*&& canPass3*/) {
+		if (canPass1 && canPass2) {
 			return false;
 		}
 		else {
@@ -99,7 +94,6 @@ public class FatBoss extends Walker {
 				if (canMove) {
 					move();
 					this.setChanged();
-//			bv.setNextUp();				
 				}
 				else {
 					changeDir();
@@ -112,7 +106,6 @@ public class FatBoss extends Walker {
 
 					move();
 					this.setChanged();
-//			bv.setNextDown();
 				}
 				else {
 					changeDir();
@@ -124,7 +117,6 @@ public class FatBoss extends Walker {
 
 					move();
 					this.setChanged();
-//			bv.setNextLeft();				
 				}
 				else {
 					changeDir();
@@ -137,7 +129,6 @@ public class FatBoss extends Walker {
 
 					move();
 					this.setChanged();
-//			bv.setNextRight();			
 				}
 				else {
 					changeDir();
@@ -178,7 +169,6 @@ public class FatBoss extends Walker {
 		Coordinates[] b_hit_box = b.damageHitBox(tile_size);
 		for (Coordinates c : b_hit_box) {
 			if (c.i > hit_box[0].i && c.i < hit_box[1].i && c.j > hit_box[0].j && c.j < hit_box[2].j) {
-				System.out.println("hit");
 				return true;
 			}
 		}
@@ -200,10 +190,7 @@ public class FatBoss extends Walker {
 		int y5 = getPos_y() + 4*tile_size;
 
 		Coordinates[] hit_box = new Coordinates[12];
-//		hit_box[0] = new Coordinates(x1,y1);
-//		hit_box[1] = new Coordinates(x2,y1);
-//		hit_box[2] = new Coordinates(x3,y1);
-//		hit_box[3] = new Coordinates(x4,y1);
+
 		hit_box[0] = new Coordinates(x1,y2);
 		hit_box[1] = new Coordinates(x2,y2);
 		hit_box[2] = new Coordinates(x3,y2);
@@ -287,74 +274,10 @@ public class FatBoss extends Walker {
 		hit_box[3] = bottom_left;
 		
 		return hit_box;
-//		switch (state) {
-//		
-//		case 0:
-//			hit_box.add(top_left);
-//			hit_box.add(top_right);
-//			hit_box.add(bottom_left);
-//			hit_box.add(bottom_right);	
-//			break;
-//		case 1:
-//			hit_box.add(top_left);
-//			hit_box.add(top_right);
-//			hit_box.add(bottom_left);
-//			hit_box.add(bottom_right);	
-//	
-//			break;
-//		case 2:
-//			hit_box.add(top_left);
-//			hit_box.add(top_right);
-//			hit_box.add(bottom_left);
-//			hit_box.add(bottom_right);	
-//			hit_box.add(hammer_top_left);
-//			hit_box.add(hammer_top_right);
-//			hit_box.add(hammer_bottom_left);
-//			hit_box.add(hammer_bottom_right);	
-//			break;
-//		}
-//		return hit_box;
+
 	}
 	
-//	
-//	@Override
-//	public boolean checkCollision(Coordinates[] hit_box, Direction dir, TileModel[][] map_structure, int tile_size) {
-////		boolean canPass1 = false;
-////		boolean canPass2 = false;
-////		boolean canPass3 = false;
-////		Coordinates[] bomberman_hit_box = Bomberman.getInstance().collisionHitBox(tile_size);
-////		switch(dir) {
-////		case UP:
-////			canPass1 = !map_structure[(hit_box[0].j-this.getMoveSpeed())/tile_size][hit_box[0].i/tile_size].isBorder();
-////			canPass2 = !map_structure[(hit_box[1].j-this.getMoveSpeed())/tile_size][hit_box[1].i/tile_size].isBorder();
-////			canPass3 = map_structure[(hit_box[0].j-this.getMoveSpeed())/tile_size][hit_box[0].i/tile_size].getPlacedBomb() == null;
-////			break;
-////		case RIGHT:
-////			canPass1 = !map_structure[hit_box[1].j/tile_size][(hit_box[1].i+this.getMoveSpeed())/tile_size].isBorder();
-////			canPass2 = !map_structure[hit_box[2].j/tile_size][(hit_box[2].i+this.getMoveSpeed())/tile_size].isBorder();
-////			canPass3 = map_structure[hit_box[1].j/tile_size][(hit_box[1].i+this.getMoveSpeed())/tile_size].getPlacedBomb() == null;
-////			break;
-////		case DOWN:
-////			canPass1 = !map_structure[(hit_box[2].j+this.getMoveSpeed())/tile_size][hit_box[2].i/tile_size].isBorder();
-////			canPass2 = !map_structure[(hit_box[3].j+this.getMoveSpeed())/tile_size][hit_box[3].i/tile_size].isBorder();
-////			canPass3 = map_structure[(hit_box[2].j+this.getMoveSpeed())/tile_size][hit_box[2].i/tile_size].getPlacedBomb() == null;
-////			break;
-////		case LEFT:
-////			canPass1 = !map_structure[hit_box[3].j/tile_size][(hit_box[3].i-this.getMoveSpeed())/tile_size].isBorder();
-////			canPass2 = !map_structure[hit_box[0].j/tile_size][(hit_box[0].i-this.getMoveSpeed())/tile_size].isBorder();
-////			canPass3 = map_structure[hit_box[3].j/tile_size][(hit_box[3].i-this.getMoveSpeed())/tile_size].getPlacedBomb() == null;
-////			break;
-////		default:
-////		}
-////		if (canPass1 && canPass2 && canPass3) {
-////			return false;
-////		}
-////		else {
-////			return true;
-////		}
-//		return false;
-//	}
-//	
+
 }
 
 

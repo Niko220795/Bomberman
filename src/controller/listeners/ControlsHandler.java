@@ -3,13 +3,8 @@ package controller.listeners;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import model.Bomberman;
 import view.BombermanView;
-import view.FinestraDiGioco;
-import view.GamePanel;
 
 public class ControlsHandler implements KeyListener{
 	Bomberman b = Bomberman.getInstance();

@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.stream.Stream;
-
 import model.Character;
 import model.Direction;
 import model.FatBoss;
@@ -16,7 +14,6 @@ import model.Shooter;
 import model.Trapper;
 import model.Walker;
 import view.FatBossView;
-import view.EntityView;
 import view.FreezeBossView;
 import view.ImmobileView;
 import view.ShooterView;
@@ -28,6 +25,10 @@ public class EntityInstantiator {
 	public ArrayList<Character> chars = new ArrayList<Character>(); 
 	GameSetup game_setup;
 
+	/**
+	 * Costruttore che inizializza i nemici in gioco a partire da un file di configurazione.
+	 * @param path stringa che identifica il path del file di configurazione.
+	 */
 	public EntityInstantiator(String path, GameSetup game_setup) {
 		this.game_setup = game_setup;
 		Stream<String> mapText;
@@ -46,7 +47,11 @@ public class EntityInstantiator {
 			e.printStackTrace();
 		}
 	}
-	
+
+
+	/**
+	 * Metodo che effettua il parsing del file di configurazione e crea i nemici seguendo i dati estrapolati.
+	 */
 	public void charCreation(String s) {
 		String[] values = s.split(" ");
 		switch(values[0]) {

@@ -2,11 +2,8 @@ package view;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import controller.MenuSetup;
-import controller.listeners.ShowProfileIconListener;
-import model.User;
+
 
 public class NewGameButton {
 	

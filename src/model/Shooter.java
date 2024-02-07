@@ -27,7 +27,10 @@ public class Shooter extends Walker{
 		}
 		
 	}
-	
+
+	/**
+	 * Funzione che permette allo shooter di sparare un proiettile.
+	 */
 	public void shootProjectile(int tile_size, ArrayList<Projectile> projectiles, TileModel[][] map_structure) {
 		switch(super.getDir()) {
 		case UP:

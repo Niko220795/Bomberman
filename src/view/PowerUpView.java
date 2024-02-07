@@ -20,8 +20,6 @@ public class PowerUpView {
 			this.icons.add(ImageIO.read(new File("src/resources/power_up/6.png")));
 			this.icons.add(ImageIO.read(new File("src/resources/power_up/7.png")));
 			this.icons.add(ImageIO.read(new File("src/resources/power_up/8.png")));
-
-			System.out.println(this.icons.size());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -30,7 +28,6 @@ public class PowerUpView {
 	
 	public BufferedImage getPowerUpSprite(int id) {
 		if (id > icons.size()) {
-			System.out.println("out of bounds powerup sprite");
 			return null;
 		}
 		else {

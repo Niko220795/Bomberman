@@ -1,9 +1,6 @@
 package model;
 
-
-
 import java.util.Random;
-
 import controller.AudioManager;
 import controller.Coordinates;
 import controller.listeners.ControlsHandler;
@@ -19,21 +16,21 @@ public abstract class Enemy extends Character {
 	Random r = new Random();
 
 	
-	/*
+	/**
 	 * Funzione per muovere un nemico. La prima parte introduce una componente random che potrebbe far effettuare un cambio di direzione ogni qual volta il 
 	 * modello del nemico si trova sovrapposto perfettamente ad un tile (si verifica banalmente controllando l'angolo in alto a sinistra del modello)
 	 * In seguito si controlla se il movimento sia possibile (controllando tramite hitObstacle che il modello non vada incontro ad un tile con collisione), nel quale
-	 * caso si cambia direzione, altrimenti si effettua il movimento vero e proprio verso la direzione dir
+	 * caso si cambia direzione, altrimenti si effettua il movimento vero e proprio verso la direzione dir.
 	 */
-	
-	
-
 	public Enemy(int x, int y) {
 		this.setPos_x(x);
 		this.setPos_y(y);
 		this.health = 1;
 	}
 
+	/**
+	 * Controlla se il nemico sta prendendo danno da un'esplosione.
+	 */
 	@Override
 	public boolean checkDamage(TileModel[][] map_structure) {
 		Coordinates[] hitbox = damageHitBox(GamePanel.FINAL_TILE_SIZE);
@@ -46,8 +43,10 @@ public abstract class Enemy extends Character {
 		}
 		return false;
 	}
-	
 
+	/**
+	 * Controlla se c'è collisione tra un nemico e Bomberman.
+	 */
 	public boolean hasDamagedBomberman(int tile_size, Coordinates[] hit_box) {
 		Bomberman b = Bomberman.getInstance();
 
@@ -59,7 +58,10 @@ public abstract class Enemy extends Character {
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Funzione utilitaria per gestire le direzioni attraverso id per generare la direzione randomica.
+	 */
 	public Direction dirFromInt(int i) {
 		Direction dir = Direction.UP;
 		switch(i){
@@ -83,8 +85,10 @@ public abstract class Enemy extends Character {
 	public void setDir(Direction dir) {
 		this.dir = dir;
 	}
-	
-	
+
+	/**
+	 * Funzione per cambiare direzione in modo (quasi) casuale. Tende a favorire la direzione in cui sta già andando e sfavorire la direzione da cui è appena tornato.
+	 */
 	public void changeDir() {
 	
 		int i = r.nextInt(4);
@@ -121,7 +125,7 @@ public abstract class Enemy extends Character {
 		}
 	}
 	
-	/*
+	/**
 	 * Funzione utilitaria per calcolare che due direzioni non siano una l'opposto dell'altra. Usata per diminuire la componente casuale e fare
 	 * in modo che il modello non torni troppo spesso dalla direzione da cui è venuto
 	 */
@@ -144,10 +148,9 @@ public abstract class Enemy extends Character {
 		return false;
 	}
 	
-	/*
+	/**
 	 * Funzione che cambia direzione in modo (quasi) casuale.
 	 */
-	
 	@Override
 	public void damage() {
 		super.damage();
@@ -156,9 +159,10 @@ public abstract class Enemy extends Character {
 		}
 	}
 
-
+	/**
+	 * Estende i controlli della collisione per controllare anche se un nemico va addosso alla bomba.
+	 */
 	@Override
-	
 	public boolean checkCollision(Coordinates[] hit_box, Direction dir, TileModel[][] map_structure, int tile_size) {
 		boolean super_collision = super.checkCollision(hit_box, dir, map_structure, tile_size);
 		boolean canPass3 = false;
@@ -185,13 +189,6 @@ public abstract class Enemy extends Character {
 	}
 	
 	public void move() {
-//		if(this.getPos_x()%GamePanel.FINAL_TILE_SIZE == 0 && this.getPos_y()%GamePanel.FINAL_TILE_SIZE == 0) {
-//			int i = r.nextInt(5);
-//
-//			if (i == 0) {
-//				changeDir();
-//			}
-//		}
 		switch(dir) {
 		case UP:
 			up();
@@ -211,9 +208,7 @@ public abstract class Enemy extends Character {
 	
 	@Override
 	public void move(int tile_size, TileModel[][] map_structure, ControlsHandler controls) {
-		
-	
-		
+
 		if (!this.isDead()) {
 			Coordinates[] hit_box = this.collisionHitBox(tile_size);
 		
@@ -287,17 +282,5 @@ public abstract class Enemy extends Character {
 		}
 		
 	}
-		
-		
-	
-	/*
-	 * Funzione utilitaria per associare un valore intero ad ogni direzione
-	 */
-	
-
-
-
-
-	
 
 }

@@ -1,11 +1,11 @@
 package model;
 
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
-
-import javax.swing.JButton;
 import javax.swing.JLabel;
 
+/**
+ * Classe che raccoglie e memorizza tutti i dati dell'utente relativi all'username, al livello giocato, ai punti conquistati etc.
+ */
 public class User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

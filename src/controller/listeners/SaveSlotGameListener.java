@@ -23,7 +23,6 @@ public class SaveSlotGameListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 
 		menu.current_user = save_slot.user;
-		System.out.println("saveslot game listener userid = "+menu.current_user.user_id);
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
 		    	save_slot.getButton().setBorderPainted(true);
