@@ -209,7 +209,7 @@ public class GameSetup {
 			break;
 		case 2:
 			this.terrain_map.put(2, new HashSet<Integer>(Arrays.asList(1,8)));
-			this.destructible_map.put(2, new HashSet<Integer>(Arrays.asList(14)));
+			this.destructible_map.put(2, new HashSet<Integer>(Arrays.asList(15)));
 			this.border_map.put(2, new HashSet<Integer>(Arrays.asList(10)));
 			break;
 		case 3:
@@ -225,7 +225,7 @@ public class GameSetup {
 		case 5:
 			this.terrain_map.put(5, new HashSet<Integer>(Arrays.asList(10,6)));
 			this.destructible_map.put(5, new HashSet<Integer>(Arrays.asList(17)));
-			this.border_map.put(5, new HashSet<Integer>(Arrays.asList(10)));
+			this.border_map.put(5, new HashSet<Integer>(Arrays.asList()));
 			break;
 		}
 	}
